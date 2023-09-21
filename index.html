@@ -1,0 +1,109 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototype v2</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+       
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        
+        <div class="btn-container">
+            <!-- SHOP -->
+            <button id="openShop" class="button shop-btn">SHOP</button>
+            <dialog id="shop">
+                <!-- TOP -->
+                <div class="top">
+                    <div class="headline">
+                        <h2 class="title">SHOP</h2>
+                        <input type="search" class="search-bar" id="shop-search" name="shop-search" placeholder="Search.." autocomplete="off">
+                        <h2 id="money">$9999</h2>
+                    </div>
+
+                    <div class="category-scroll">
+                        <button id="caseFilter" class="button category-btn">Case</button>
+                        <button id="moboFilter" class="button category-btn">Motherboard</button>
+                        <button id="cpuFilter" class="button category-btn">CPU</button>
+                        <button id="psuFilter" class="button category-btn">Power&nbsp;Supply</button>
+                        <button id="ramFilter" class="button category-btn">Memory</button>
+                        <button id="romFilter" class="button category-btn">Storage</button>
+                        <button id="coolingFilter" class="button category-btn">Cooling</button>
+                    </div>
+                    <hr>
+                </div>
+                
+                <!-- MIDDLE -->
+                <div class="items-shop">
+
+                </div>
+                <!-- BOTTOM -->
+                <div class="bottom">
+                    <hr>
+                    <div class="bottom-container">
+                        <label for="quickBuy" class="quick-buy">
+                            <input type="checkbox" id="quickBuy">Quick Buy
+                        </label>
+                        <button id="closeShop" class="button shop-btn">CLOSE</button>
+                    </div>
+                </div>
+            </dialog> 
+
+
+            <!-- INVENTORY -->
+            <button id="openInv" class="button inv-btn">INVENTORY</button>
+            <dialog id="inventory">
+                <!-- TOP -->
+                <div class="top">
+                    <div class="headline">
+                        <h2 class="title">INVENTORY</h2>
+                        <input type="search" class="search-bar" id="inv-search" name="inv-search" placeholder="Search.." autocomplete="off">
+                        <h2 id="money">$9999</h2>
+                    </div>
+
+                    <div class="category-scroll">
+                        <button id="cpuFilter" class="button category-btn">CPU</button>
+                        <button id="moboFilter" class="button category-btn">Motherboard</button>
+                        <button id="psuFilter" class="button category-btn">Power&nbsp;Supply</button>
+                        <button id="caseFilter" class="button category-btn">Case</button>
+                        <button id="ramFilter" class="button category-btn">Memory</button>
+                        <button id="romFilter" class="button category-btn">Storage</button>
+                        <button id="coolingFilter" class="button category-btn">Cooling</button>
+
+                    </div>
+                    <hr>
+                </div>
+
+                <!-- MIDDLE -->
+                <div class="items-inv">
+
+                </div>
+            
+                <!-- BOTTOM -->
+                <div class="bottom">
+                    <hr>
+                    <div class="bottom-container">
+                        <label for="quickPlace" class="quick-place">
+                            <input type="checkbox" id="quickPlace">Quick Place
+                        </label>
+                        <button id="closeInv" class="button inv-btn">CLOSE</button>
+                    </div>
+                </div>
+            </dialog>
+        </div>
+
+        <!-- CANVAS -->
+        <canvas></canvas>
+
+        <!-- INFO DIALOG MODAL -->
+        <dialog class="item-info"></dialog>
+    </div>
+
+    <script type="module" src="main.js"></script>
+    <!-- <script src="./scripts/data.js"></script> -->
+    <script>
+    </script>
+</body>
+</html>
