@@ -5,6 +5,23 @@ import components from "./scripts/data.js"
 import DomElements from "./scripts/domElements.js"
 import Component from "./scripts/component.js"
 
+class PCSet {
+    constructor() {
+        this.items = []
+    }
+
+    getSlots(slots, item) {
+        const availableSlots = []
+        slots.forEach(slot => {
+            if (slot.name === item.type) {
+                availableSlots.push(slot)
+            }
+        })
+
+        return availableSlots
+    }
+}
+
 // MAIN GAME LOOP
 class Game {
     constructor() {
@@ -14,7 +31,7 @@ class Game {
         this.ui = new UI(this.domElements)
 
         // COMPONENTS SHELF
-        this.pcToBuild = []
+        this.pcToBuild = new PCSet()
         this.componentsShelf = []
 
         // MOUSE HANDLING
@@ -43,7 +60,20 @@ class Game {
                 x: mouse.x - box.x,
                 y: mouse.y - box.y
             }
-        }        
+        }
+        
+        if (this.selectedComponent && this.pcToBuild.length !== 0) {
+            this.pcToBuild.items.forEach(component => {
+                const slots = component.slots
+                const availableSlots = this.pcToBuild.getSlots(slots, this.selectedComponent)
+
+                availableSlots.forEach(slot => {
+
+                    this.ui.drawSlot(slot, component, this.selectedComponent)
+                })
+
+            })
+        }
     }
 
     getMousePosition(e) {
@@ -136,8 +166,6 @@ class Game {
             invArea.removeChild(invArea.firstChild)
         }
 
-        
-
         invItems.forEach((item, index) => {
             const element = this.ui.makeItemElement(item)
             invArea.appendChild(element)
@@ -157,13 +185,13 @@ class Game {
 
                     // SEPARATE THE CASE AND COMPONENTS
                     if(newItem.type == 'pcCase') {
-                        this.pcToBuild.push(newItem)
+                        this.pcToBuild.items.push(newItem)
                     } else {
                         this.componentsShelf.unshift(newItem)
                     }
 
                     // CREATE BOX FOR COMPONENTS FOR INTERACTIONS
-                    this.pcToBuild.forEach(item => {
+                    this.pcToBuild.items.forEach(item => {
                         item.size.box = {
                             x: this.ui.pcCaseArea.width/ 2 - item.size.width/2,
                             y: this.ui.pcCaseArea.height/2 - item.size.height/2,

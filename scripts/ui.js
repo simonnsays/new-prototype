@@ -55,6 +55,8 @@ class UI {
         })
         this.handleOutOfModal(this.inv)
         
+        // LOGIC VARIABLES
+        this.availableSlots
     }
 
     handleButtons(button) {
@@ -115,7 +117,7 @@ class UI {
         this.c.clearRect(0,0, this.canvas.width, this.canvas.height)
         this.canvasInit()
 
-        pcCaseShelf.forEach(item => {
+        pcCaseShelf.items.forEach(item => {
             this.c.drawImage(
                 item.states.default.image,
                 item.size.box.x,
@@ -138,6 +140,21 @@ class UI {
         requestAnimationFrame(() => this.animate(pcCaseShelf, componentsShelf)) 
     }
     
+    drawSlot(slot, component, selectedItem) {
+        const box = component.size.box
+        this.c.fillStyle = 'rgba(0, 225, 0, 0.4)'
+        // this.c.fillStyle = 'green'
+        this.c.fillRect(
+            box.x + slot.offset.x,
+            box.y + slot.offset.y,
+            selectedItem.size.width,
+            selectedItem.size.height
+        )
+
+        requestAnimationFrame(() => this.drawSlot(slot, component, selectedItem))
+        console.log('printed')
+
+    }
 
     drawRoundedRect(x, y, width, height, borderRadius) {
         this.c.beginPath();
