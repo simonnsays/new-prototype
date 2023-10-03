@@ -152,7 +152,6 @@ class UI {
         )
 
         requestAnimationFrame(() => this.drawSlot(slot, component, selectedItem))
-        console.log('printed')
 
     }
 

@@ -10,9 +10,9 @@ let components = [
             height: 456
         },
         states: {
-            default: {imageSrc: '../assets/PC Case/Nanoxia Deep Silence 3/Side.png'},
-            attached: {imageSrc: '../assets/PC Case/Nanoxia Deep Silence 3/Side.png'},
-            front: {imageSrc: '../assets/PC Case/Nanoxia Deep Silence 3/Front.png'}
+            default: {imageSrc: './assets/PC Case/Nanoxia Deep Silence 3/Side.png'},
+            attached: {imageSrc: './assets/PC Case/Nanoxia Deep Silence 3/Side.png'},
+            front: {imageSrc: './assets/PC Case/Nanoxia Deep Silence 3/Front.png'}
         },
         slots: [{
             name: 'MoBo', 
@@ -41,8 +41,8 @@ let components = [
             height: 305
         },
         states: {
-            default: {imageSrc: '../assets/MotherBoard/ASUS P8P67/Default.png'},
-            attached: {imageSrc: '../assets/MotherBoard/ASUS P8P67/Default.png'}
+            default: {imageSrc: './assets/MotherBoard/ASUS P8P67/Default.png'},
+            attached: {imageSrc: './assets/MotherBoard/ASUS P8P67/Default.png'}
         },
         slots: [{
             name: 'cpu', 
@@ -64,8 +64,8 @@ let components = [
             width: 140
         },
         states: {
-            default: {imageSrc: '../assets/Power Supply/Thermaltake Smart 500w/default.png'},
-            attached: {imageSrc: '../assets/Power Supply/Thermaltake Smart 500w/attached.png'}
+            default: {imageSrc: './assets/Power Supply/Thermaltake Smart 500w/default.png'},
+            attached: {imageSrc: './assets/Power Supply/Thermaltake Smart 500w/attached.png'}
         },
         slots: [{
             name: 'none', 
