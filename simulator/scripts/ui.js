@@ -151,8 +151,47 @@ class UI {
             selectedItem.size.height
         )
 
-        requestAnimationFrame(() => this.drawSlot(slot, component, selectedItem))
+        const drawSlotAnimationId = requestAnimationFrame(() => this.drawSlot(slot, component, selectedItem))
+        this.canvas.addEventListener('mouseup', () => {
+            cancelAnimationFrame(drawSlotAnimationId)
+        })
 
+    }
+
+    getMousePosition(e) {
+        const rect = this.canvas.getBoundingClientRect()
+        return {
+            x: Math.round(e.clientX - rect.left),
+            y: Math.round(e.clientY - rect.top),
+          }
+    }
+
+    getPiece(mouse, pieces) {
+        for(let piece of pieces) {
+            const box = piece.size.box
+            if (mouse.x > box.x &&
+                mouse.x < box.x + box.width &&
+                mouse.y > box.y &&
+                mouse.y < box.y + box.height) {
+                    return piece
+            }
+        }
+    }
+
+    partsAreClose(component, slot) {
+        const box = component.size.box
+        console.log(this.distance({x: box.x, y: box.y}, {x: slot.offset.x, y: slot.offset.y }) < slot.offset.w / 3)
+        console.log(this.distance({x: box.x, y: box.y}, {x: slot.offset.x, y: slot.offset.y }))
+        console.log(slot.offset.w / 3)
+        return this.distance({x: box.x, y: box.y}, {x: slot.offset.x, y: slot.offset.y }) < slot.offset.w / 3
+    }
+
+    distance(point1, point2) {
+        const a = parseInt(point1.x - point2.x)
+        const b = parseInt(point1.y - point2.y)
+        const c = Math.sqrt(a*a + b*b)
+
+        return Math.round(c)
     }
 
     drawRoundedRect(x, y, width, height, borderRadius) {

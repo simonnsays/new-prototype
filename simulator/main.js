@@ -43,18 +43,16 @@ class Game {
 
     // HANDLE MOUSE DOWN
     handleMouseDown(e) {
-        const mouse = this.getMousePosition(e) 
-        this.selectedComponent = this.getPiece(mouse, this.componentsShelf) 
+        const mouse = this.ui.getMousePosition(e) 
+        this.selectedComponent = this.ui.getPiece(mouse, this.componentsShelf) 
     
         if(this.selectedComponent) {
             const box = this.selectedComponent.size.box
-
             // SET ORIGIN 
             box.origin = {
                 x: box.x,
                 y: box.y
             }
-
             // SET IMAGE TO MOUSE OFFSET
             box.offset = {
                 x: mouse.x - box.x,
@@ -68,7 +66,6 @@ class Game {
                 const availableSlots = this.pcToBuild.getSlots(slots, this.selectedComponent)
 
                 availableSlots.forEach(slot => {
-
                     this.ui.drawSlot(slot, component, this.selectedComponent)
                 })
 
@@ -76,40 +73,33 @@ class Game {
         }
     }
 
-    getMousePosition(e) {
-        const rect = this.ui.canvas.getBoundingClientRect()
-        return {
-            x: Math.round(e.clientX - rect.left),
-            y: Math.round(e.clientY - rect.top),
-          }
-    }
-
-    getPiece(mouse, pieces) {
-        for(let piece of pieces) {
-            const box = piece.size.box
-            if (mouse.x > box.x &&
-                mouse.x < box.x + box.width &&
-                mouse.y > box.y &&
-                mouse.y < box.y + box.height) {
-                    return piece
-            }
-        }
-    }
-
     // HANDLE MOUSE MOVE
     handleMouseMove(e) {
-        const mouse = this.getMousePosition(e)
+        const mouse = this.ui.getMousePosition(e)
         if(this.selectedComponent && Object.keys(this.selectedComponent).length !== 0) {
             const box = this.selectedComponent.size.box
-            // console.log(this.selectedComponent)
             box.x = mouse.x - box.offset.x
             box.y = mouse.y - box.offset.y
         }
-
     }
 
     handleMouseUp() {
         if(this.selectedComponent && Object.keys(this.selectedComponent).length !== 0) {
+            console.log(this.selectedComponent)
+            this.pcToBuild.items.forEach(component => {
+                const box = component.size.box
+                const slots = component.slots
+                const availableSlots = this.pcToBuild.getSlots(slots, this.selectedComponent)
+                console.log(availableSlots)
+                // console.log(component)
+
+                availableSlots.forEach(slot => {
+                    if (this.ui.partsAreClose(this.selectedComponent, slot)) {
+                        console.log('near')
+                    }
+                })
+            })
+
             const box = this.selectedComponent.size.box
 
             box.x = box.origin.x

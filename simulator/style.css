@@ -95,8 +95,7 @@ body {
 dialog{
     border-radius: 20px;   
     animation: fadeInAnimation ease .4s;
-    animation-iteration-count: 1  ;
-    animation-fill-mode: forwards;
+    animation-iteration-count: 1 ;
 }
 
 #shop, #inventory{
