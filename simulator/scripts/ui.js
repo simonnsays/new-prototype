@@ -113,19 +113,23 @@ class UI {
     createBoundingBox() {
     }
 
-    animate(pcCaseShelf, componentsShelf) {
+    animate(pcSet, componentsShelf) {
         this.c.clearRect(0,0, this.canvas.width, this.canvas.height)
         this.canvasInit()
 
-        pcCaseShelf.items.forEach(item => {
+        // DRAW PC SET
+        if(Object.keys(pcSet.item).length !== 0) {
+            const PC = pcSet.item
             this.c.drawImage(
-                item.states.default.image,
-                item.size.box.x,
-                item.size.box.y,
-                item.size.box.width,
-                item.size.box.height)
-        })
+                    PC.states.default.image,
+                    PC.size.box.x,
+                    PC.size.box.y,
+                    PC.size.box.width,
+                    PC.size.box.height,
+            )
+        }
 
+        // DRAW COMPONENTS ON SHELF
         componentsShelf.forEach((item) => {
             const image = item.states.default.image
             this.c.drawImage(
@@ -137,21 +141,19 @@ class UI {
             )
         })
 
-        requestAnimationFrame(() => this.animate(pcCaseShelf, componentsShelf)) 
+        requestAnimationFrame(() => this.animate(pcSet, componentsShelf)) 
     }
     
-    drawSlot(slot, component, selectedItem) {
-        const box = component.size.box
+    drawSlot(slot) {
         this.c.fillStyle = 'rgba(0, 225, 0, 0.4)'
-        // this.c.fillStyle = 'green'
         this.c.fillRect(
-            box.x + slot.offset.x,
-            box.y + slot.offset.y,
-            selectedItem.size.width,
-            selectedItem.size.height
+            slot.box.x,
+            slot.box.y,
+            slot.box.width,
+            slot.box.height
         )
 
-        const drawSlotAnimationId = requestAnimationFrame(() => this.drawSlot(slot, component, selectedItem))
+        const drawSlotAnimationId = requestAnimationFrame(() => this.drawSlot(slot))
         this.canvas.addEventListener('mouseup', () => {
             cancelAnimationFrame(drawSlotAnimationId)
         })
@@ -255,6 +257,17 @@ class UI {
         button.textContent = name
 
         return button
+    }
+
+    createSlotBox(item) {
+        item.slots.forEach((slot, index) => {
+            slot.box = {
+                x: item.size.box.x + slot.offset.x,
+                y: item.size.box.y + slot.offset.y,
+                width: slot.offset.w,
+                height: slot.offset.h
+            }
+        })
     }
 }
 

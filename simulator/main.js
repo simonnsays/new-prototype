@@ -3,24 +3,7 @@ import Shop from "./scripts/shop.js"
 import Inventory from "./scripts/inventory.js"
 import components from "./scripts/data.js"
 import DomElements from "./scripts/domElements.js"
-import Component from "./scripts/component.js"
-
-class PCSet {
-    constructor() {
-        this.items = []
-    }
-
-    getSlots(slots, item) {
-        const availableSlots = []
-        slots.forEach(slot => {
-            if (slot.name === item.type) {
-                availableSlots.push(slot)
-            }
-        })
-
-        return availableSlots
-    }
-}
+import PCSet from "./scripts/pcSet.js"
 
 // MAIN GAME LOOP
 class Game {
@@ -60,15 +43,12 @@ class Game {
             }
         }
         
-        if (this.selectedComponent && this.pcToBuild.length !== 0) {
-            this.pcToBuild.items.forEach(component => {
-                const slots = component.slots
-                const availableSlots = this.pcToBuild.getSlots(slots, this.selectedComponent)
+        // CHECK FOR AVAILABLE SLOTS
+        if (this.selectedComponent && Object.keys(this.pcToBuild.item).length !== 0) {
+            const availableSlots = this.pcToBuild.getSlots(this.pcToBuild.item, this.selectedComponent)
 
-                availableSlots.forEach(slot => {
-                    this.ui.drawSlot(slot, component, this.selectedComponent)
-                })
-
+            availableSlots.forEach(slot => {
+                this.ui.drawSlot(slot)
             })
         }
     }
@@ -84,21 +64,20 @@ class Game {
     }
 
     handleMouseUp() {
-        if(this.selectedComponent && Object.keys(this.selectedComponent).length !== 0) {
-            console.log(this.selectedComponent)
-            this.pcToBuild.items.forEach(component => {
-                const box = component.size.box
-                const slots = component.slots
-                const availableSlots = this.pcToBuild.getSlots(slots, this.selectedComponent)
-                console.log(availableSlots)
-                // console.log(component)
+        if(this.selectedComponent && Object.keys(this.selectedComponent).length !== 0) {    
+            // this.pcToBuild.items.forEach(component => {
+            //     const box = component.size.box
+            //     const slots = component.slots
+            //     const availableSlots = this.pcToBuild.getSlots(slots, this.selectedComponent)
+            //     console.log(availableSlots)
+            //     // console.log(component)
 
-                availableSlots.forEach(slot => {
-                    if (this.ui.partsAreClose(this.selectedComponent, slot)) {
-                        console.log('near')
-                    }
-                })
-            })
+            //     availableSlots.forEach(slot => {
+            //         if (this.ui.partsAreClose(this.selectedComponent, slot)) {
+            //             console.log('near')
+            //         }
+            //     })
+            // })
 
             const box = this.selectedComponent.size.box
 
@@ -175,20 +154,21 @@ class Game {
 
                     // SEPARATE THE CASE AND COMPONENTS
                     if(newItem.type == 'pcCase') {
-                        this.pcToBuild.items.push(newItem)
+                        this.pcToBuild.item = newItem
                     } else {
                         this.componentsShelf.unshift(newItem)
                     }
 
                     // CREATE BOX FOR COMPONENTS FOR INTERACTIONS
-                    this.pcToBuild.items.forEach(item => {
-                        item.size.box = {
-                            x: this.ui.pcCaseArea.width/ 2 - item.size.width/2,
-                            y: this.ui.pcCaseArea.height/2 - item.size.height/2,
-                            width: item.size.width,
-                            height: item.size.height
-                        }
-                    })
+                    const pcItem = this.pcToBuild.item
+                    pcItem.size.box = {
+                        x: this.ui.pcCaseArea.width/ 2 - pcItem.size.width/2,
+                        y: this.ui.pcCaseArea.height/2 - pcItem.size.height/2,
+                        width: pcItem.size.width,
+                        height: pcItem.size.height
+                    }
+                    // CREATE SLOT
+                    this.ui.createSlotBox(pcItem)
 
                     this.componentsShelf.forEach((item, index) => {
                         const area = this.ui.componentsArea[index]
@@ -199,7 +179,11 @@ class Game {
                             width: 190,
                             height: 190
                         }
+                        // CREATE SLOT
+                        this.ui.createSlotBox(item)
                     })
+
+
 
                     this.updateInv()
                 }
