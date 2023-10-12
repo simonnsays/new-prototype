@@ -1,0 +1,1 @@
+attachment is still unstable, check ui.getPiece() method and main.handleMouseUp()

@@ -1,6 +1,7 @@
 class PCSet {
     constructor() {
         this.item = {}
+        this.availableSlots = []
     }
 
     getSlots(pcSetItem, selectedComponentItem) {
@@ -8,7 +9,7 @@ class PCSet {
         if (pcSetItem.slots) {
             pcSetItem.slots.forEach(slotItem => {
                 if(slotItem.name === selectedComponentItem.type) {
-                    availableSlots.push(slotItem)
+                    this.availableSlots.push(slotItem)
                 }
 
                 if(slotItem.occupied) {
@@ -16,7 +17,6 @@ class PCSet {
                 }
             })
         }
-        return availableSlots
     }
 
 }

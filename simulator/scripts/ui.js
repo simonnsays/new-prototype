@@ -169,23 +169,32 @@ class UI {
     }
 
     getPiece(mouse, pieces) {
-        for(let piece of pieces) {
+        for (let i = 0; i < pieces.length; i++) {
+            const piece = pieces[i]
             const box = piece.size.box
             if (mouse.x > box.x &&
                 mouse.x < box.x + box.width &&
                 mouse.y > box.y &&
                 mouse.y < box.y + box.height) {
-                    return piece
+                    piece.i = i
+                    console.log(piece)
+                    return piece;  // Return the piece when condition is met
             }
         }
+        // for(let piece of pieces) {
+        //     const box = piece.size.box
+        //     if (mouse.x > box.x &&
+        //         mouse.x < box.x + box.width &&
+        //         mouse.y > box.y &&
+        //         mouse.y < box.y + box.height) {
+        //             return piece
+        //     }
+        // }
     }
 
     partsAreClose(component, slot) {
         const box = component.size.box
-        console.log(this.distance({x: box.x, y: box.y}, {x: slot.offset.x, y: slot.offset.y }) < slot.offset.w / 3)
-        console.log(this.distance({x: box.x, y: box.y}, {x: slot.offset.x, y: slot.offset.y }))
-        console.log(slot.offset.w / 3)
-        return this.distance({x: box.x, y: box.y}, {x: slot.offset.x, y: slot.offset.y }) < slot.offset.w / 3
+        return this.distance({x: box.x, y: box.y}, {x: slot.box.x, y: slot.box.y}) < slot.box.width / 2
     }
 
     distance(point1, point2) {
