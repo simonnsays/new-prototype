@@ -127,6 +127,12 @@ class UI {
                     PC.size.box.width,
                     PC.size.box.height,
             )
+
+            pcSet.item.slots.forEach(slot => {
+                if(slot.occupied) {
+                    this.drawComponent(slot.occupied)
+                }
+            })
         }
 
         // DRAW COMPONENTS ON SHELF
@@ -142,6 +148,29 @@ class UI {
         })
 
         requestAnimationFrame(() => this.animate(pcSet, componentsShelf)) 
+    }
+
+    drawComponent(component) {
+        if(Object.keys(component).length == 0) {
+            return
+        }
+
+        const image = component.states.attached.image
+        const box = component.size.box
+
+        this.c.drawImage(
+            image,
+            box.x,
+            box.y,
+            box.width,
+            box.height
+        )
+
+        component.slots.forEach(slot => {
+            if(slot.occupied) {
+                this.drawComponent(slot.occupied)
+            }
+        })
     }
     
     drawSlot(slot) {
@@ -177,7 +206,6 @@ class UI {
                 mouse.y > box.y &&
                 mouse.y < box.y + box.height) {
                     piece.i = i
-                    console.log(piece)
                     return piece;  // Return the piece when condition is met
             }
         }

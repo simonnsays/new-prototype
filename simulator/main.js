@@ -70,44 +70,38 @@ class Game {
             if(this.pcToBuild.availableSlots) {
                 this.pcToBuild.availableSlots.forEach(slot => {
                     if (this.ui.partsAreClose(this.selectedComponent, slot)) {
-                        // CHANGE THE ITEM BOUNDING BOX
-                        const itemBox = this.selectedComponent.size.box
-                        itemBox.x = slot.x
-                        itemBox.y = slot.y
-
                         // PLACE SELECTED COMPONENT IN SLOT CASE
-                        slot.occupied = this.selectedComponent
+                        slot.occupied = JSON.parse(JSON.stringify(this.selectedComponent))
+
+                        for(let key in this.selectedComponent.states) {
+                            slot.occupied.states[key].image = new Image()
+                            slot.occupied.states[key].image.src = this.selectedComponent.states[key].image.src
+                        }
+
+                        // CHANGE THE ITEM BOUNDING BOX
+                        const itemBox = slot.occupied.size.box
+                        itemBox.x = slot.box.x
+                        itemBox.y = slot.box.y
+                        itemBox.width = slot.box.width
+                        itemBox.height = slot.box.height
+                        
+                        // IDENTIFY AS ATTACHED
+                        slot.occupied.isAttached = true
 
                         // REMOVE ITEM IN COMPONENT SHELF FOR LOGIC
-                        console.log(this.selectedComponent)
-                        console.log(this.componentsShelf)
-                        this.componentsShelf.splice(this.selectedComponent.index, 1)
+                        this.componentsShelf.splice(this.selectedComponent.i, 1)
 
-
-                        this.pcToBuild.availableSlots.length = 0
+                        
                     }
                 })
             }
 
-            // this.pcToBuild.items.forEach(component => {
-            //     const box = component.size.box
-            //     const slots = component.slots
-            //     const availableSlots = this.pcToBuild.getSlots(slots, this.selectedComponent)
-            //     console.log(availableSlots)
-            //     // console.log(component)
-
-            //     availableSlots.forEach(slot => {
-            //         if (this.ui.partsAreClose(this.selectedComponent, slot)) {
-            //             console.log('near')
-            //         }
-            //     })
-            // })
-
+            // BACK TO SHELF IF NOT NEAR
             const box = this.selectedComponent.size.box
-
             box.x = box.origin.x
             box.y = box.origin.y
 
+            this.pcToBuild.availableSlots.length = 0
             this.selectedComponent = {}
         }
         
@@ -167,10 +161,9 @@ class Game {
             element.addEventListener('click', () => {
                 // ABSTRACTED FUNCTION
                 const invToCanvas = () => {
-                    // CLONE ITEM SO THAT IT WONT REFERENCE THE SAME ITEM IN BOX CREATION
+                    // CLONE ITEM AND RECREATE IMAGE ELEMENT SO THAT IT WONT REFERENCE THE SAME ITEM IN BOX CREATION
                     const newItem = JSON.parse(JSON.stringify(item))
 
-                    // RECREATE IMAGE ELEMENT
                     for(let key in item.states) {
                         newItem.states[key].image = new Image()
                         newItem.states[key].image.src = item.states[key].image.src
