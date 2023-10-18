@@ -5,7 +5,6 @@ class PCSet {
     }
 
     getSlots(pcSetItem, selectedComponentItem) {
-        const availableSlots = []
         if (pcSetItem.slots) {
             pcSetItem.slots.forEach(slotItem => {
                 if(slotItem.name === selectedComponentItem.type) {

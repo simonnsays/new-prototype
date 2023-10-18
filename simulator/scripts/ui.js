@@ -110,9 +110,6 @@ class UI {
         })
     }
 
-    createBoundingBox() {
-    }
-
     animate(pcSet, componentsShelf) {
         this.c.clearRect(0,0, this.canvas.width, this.canvas.height)
         this.canvasInit()
@@ -205,19 +202,10 @@ class UI {
                 mouse.x < box.x + box.width &&
                 mouse.y > box.y &&
                 mouse.y < box.y + box.height) {
-                    piece.i = i
-                    return piece;  // Return the piece when condition is met
+                    piece.i = i // Keep Track of index
+                    return piece
             }
         }
-        // for(let piece of pieces) {
-        //     const box = piece.size.box
-        //     if (mouse.x > box.x &&
-        //         mouse.x < box.x + box.width &&
-        //         mouse.y > box.y &&
-        //         mouse.y < box.y + box.height) {
-        //             return piece
-        //     }
-        // }
     }
 
     partsAreClose(component, slot) {

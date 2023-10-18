@@ -1,5 +1,6 @@
 To-Dos:
 
+- [] Search Bar (KMP Algorithm)
 - [] Compatibility checks for components 
 - [] Money Simulation (both in shops and component prices) 
 - [] The "Assistant" 
@@ -9,6 +10,7 @@ To-Dos:
 Bugs/Problems:
 
 - [/] Placing a PC case when a case is already on the canvas does not replace the pc (the pc does not return to inventory)
-         [PC case now replaces the one placed in canvas and returns the old case to inventory]
-- [] Placing components when the component shelf is already full just returns error (no more indexes on shelf, see main.updateInv()) 
+        [PC case now replaces the one placed in canvas and returns the old case to inventory]
+- [/] Placing components when the component shelf is already full just returns error (no more indexes on shelf, see main.updateInv()) 
+        [Component shelf now returns the last component to inventory and adds the new component]
 - [] clicking on a new component when a component of the same type is already attached to the pc case removes the already attached component

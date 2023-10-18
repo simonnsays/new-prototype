@@ -109,6 +109,8 @@ class Game {
 
     shopInit() {
         this.shop.fillShop(components)
+        // this.ui.componentsArea.splice(2,1)
+        console.log(this.ui.componentsArea)
 
         // CREATE ELEMENT PER ITEM IN THE SHOP
         this.shop.items.forEach(item => {
@@ -159,8 +161,9 @@ class Game {
 
             // UPDATE INFO MODAL TO SHOW ITEM INFO/SPECS
             element.addEventListener('click', () => {
-                // ABSTRACTED FUNCTION
+                // invToCanvas() ABSTRACTED FUNCTION
                 const invToCanvas = () => {
+
                     // CLONE ITEM AND RECREATE IMAGE ELEMENT SO THAT IT WONT REFERENCE THE SAME ITEM IN BOX CREATION
                     const newItem = JSON.parse(JSON.stringify(item))
 
@@ -175,15 +178,22 @@ class Game {
                             this.inventory.items.push(this.pcToBuild.item)
 
                             this.pcToBuild.item = newItem
-                            console.log(this.inventory.items)  
-                            console.log(this.pcToBuild.item) 
+                            this.updateInv()
+                        } else {
+                            this.pcToBuild.item = newItem
                         }
-
-                        this.pcToBuild.item = newItem
                     } else {
-                        // if()
+                        if(this.componentsShelf.length === this.ui.componentsArea.length) {
+                            const tmp = this.componentsShelf.splice(this.componentsShelf.length -1, 2)
+                            tmp.forEach(item => {
+                                invItems.push(item)
+                            })
+                            this.componentsShelf.unshift(newItem)
+                            this.updateInv()
 
-                        this.componentsShelf.unshift(newItem)
+                        } else {
+                            this.componentsShelf.unshift(newItem)
+                        }
                     }
 
                     // CREATE BOX FOR COMPONENTS FOR INTERACTIONS
@@ -211,6 +221,7 @@ class Game {
                         }
                         // CREATE SLOT
                         this.ui.createSlotBox(item)
+                        console.log('ITEM MADE')
                     })
 
                     this.updateInv()
