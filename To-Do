@@ -1,12 +1,15 @@
 To-Dos:
 
 - [] Search Bar (KMP Algorithm)
-- [] Compatibility checks for components 
+- [] Compatibility checks for components(attachment logic)
 - [] Money Simulation (both in shops and component prices) 
 - [] The "Assistant" 
         |_ [] add error and warning messages
 - [] Choose between 'Tutorial' and 'Free build' mode Page 
-- [] Sort Items by Category
+- [] Final Page (show components as a list)
+- [|] Sort Items by Category
+        |_ [/] upon press of a category, keep shadow on it
+        |_ [] display items based on categor (use kmp perhaps but irrelevant)
 
 Bugs/Problems:
 

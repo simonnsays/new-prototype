@@ -14,14 +14,22 @@ class DomElements {
         this.shopItemsContainer = document.querySelector('.items-shop')
         this.shopButtons = document.querySelectorAll('.shop-btn')
         this.quickBuy = document.querySelector('#quickBuy')
-
+        this.shopCategories = document.querySelectorAll('[data-category="shop"]')
+    
         // INVENTORY DOM ELEMENTS
         this.inv = document.querySelector('#inventory')
         this.invItemsContainer = document.querySelector('.items-inv')
         this.invButtons = document.querySelectorAll('.inv-btn')
         this.quickPlace = document.querySelector('#quickPlace')
 
-        
+        // COLOR PALETTE
+        this.teal = getComputedStyle(document.documentElement).getPropertyValue('--teal')
+        this.mint = getComputedStyle(document.documentElement).getPropertyValue('--mint')
+        this.navy = getComputedStyle(document.documentElement).getPropertyValue('--navy')
+        this.blue = getComputedStyle(document.documentElement).getPropertyValue('--blue')
+        this.lightLime = getComputedStyle(document.documentElement).getPropertyValue('--light-lime')
+        this.freshLemon = getComputedStyle(document.documentElement).getPropertyValue('--fresh-lemon')
+        this.pastelYellow = getComputedStyle(document.documentElement).getPropertyValue('--pastel-yellow')  
     }
 
     //  CANVAS METHODS
@@ -48,6 +56,10 @@ class DomElements {
 
     getQuickBuyBox() {
         return this.quickBuy
+    }
+
+    getShopCategories() {
+        return this.shopCategories
     }
 
     //  INV METHODS

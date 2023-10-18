@@ -16,12 +16,6 @@ class Game {
         // COMPONENTS SHELF
         this.pcToBuild = new PCSet()
         this.componentsShelf = []
-
-        // MOUSE HANDLING
-        this.selectedComponent = {}
-        this.ui.canvas.addEventListener('mousedown', (e) => this.handleMouseDown(e)) 
-        this.ui.canvas.addEventListener('mousemove', (e) => this.handleMouseMove(e)) 
-        this.ui.canvas.addEventListener('mouseup', () => this.handleMouseUp())
     }
 
     // HANDLE MOUSE DOWN
@@ -263,9 +257,20 @@ class Game {
     }
 
     start() {
-        this.shopInit() 
+        // MOUSE HANDLING
+        this.selectedComponent = {}
+        this.ui.canvas.addEventListener('mousedown', (e) => this.handleMouseDown(e)) 
+        this.ui.canvas.addEventListener('mousemove', (e) => this.handleMouseMove(e)) 
+        this.ui.canvas.addEventListener('mouseup', () => this.handleMouseUp())
 
+        this.shopInit() 
         this.ui.animate(this.pcToBuild, this.componentsShelf)
+
+        this.shop.categories.forEach(category => {
+            category.addEventListener('click', () => {
+                this.shop.updateCategoryDisplay(category)
+            })
+        })
     }
 }
 

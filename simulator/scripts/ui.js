@@ -5,13 +5,8 @@ class UI {
         this.c = this.canvas.getContext('2d')
 
         // COLOR PALETTE
-        this.teal = getComputedStyle(document.documentElement).getPropertyValue('--teal')
-        this.mint = getComputedStyle(document.documentElement).getPropertyValue('--mint')
-        this.navy = getComputedStyle(document.documentElement).getPropertyValue('--navy')
-        this.blue = getComputedStyle(document.documentElement).getPropertyValue('--blue')
-        this.lightLime = getComputedStyle(document.documentElement).getPropertyValue('--light-lime')
-        this.freshLemon = getComputedStyle(document.documentElement).getPropertyValue('--fresh-lemon')
-        this.pastelYellow = getComputedStyle(document.documentElement).getPropertyValue('--pastel-yellow')
+        this.mint = domElements.mint
+        this.pastelYellow = domElements.pastelYellow
 
         // AREAS TO PLACE
         this.pcCaseArea = {x: 10, y: 10, width: 650, height: 660}
