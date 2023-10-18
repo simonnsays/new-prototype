@@ -38,7 +38,7 @@ let components = [
         size: {
             formFactor: 'ATX',
             width: 244, 
-            height: 305
+            height: 300
         },
         states: {
             default: {imageSrc: './assets/MotherBoard/ASUS P8P67/Default.png'},

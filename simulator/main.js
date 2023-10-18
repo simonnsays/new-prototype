@@ -171,8 +171,18 @@ class Game {
 
                     // SEPARATE THE CASE AND COMPONENTS
                     if(newItem.type == 'pcCase') {
+                        if(Object.keys(this.pcToBuild.item).length !== 0 ) {
+                            this.inventory.items.push(this.pcToBuild.item)
+
+                            this.pcToBuild.item = newItem
+                            console.log(this.inventory.items)  
+                            console.log(this.pcToBuild.item) 
+                        }
+
                         this.pcToBuild.item = newItem
                     } else {
+                        // if()
+
                         this.componentsShelf.unshift(newItem)
                     }
 
