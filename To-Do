@@ -6,6 +6,7 @@ To-Dos:
 - [] The "Assistant" 
         |_ [] add error and warning messages
 - [] Choose between 'Tutorial' and 'Free build' mode Page 
+- [] Sort Items by Category
 
 Bugs/Problems:
 
@@ -13,4 +14,4 @@ Bugs/Problems:
         [PC case now replaces the one placed in canvas and returns the old case to inventory]
 - [/] Placing components when the component shelf is already full just returns error (no more indexes on shelf, see main.updateInv()) 
         [Component shelf now returns the last component to inventory and adds the new component]
-- [] clicking on a new component when a component of the same type is already attached to the pc case removes the already attached component
+- [/] clicking on a new component when a component of the same type is already attached to the pc case removes the already attached component

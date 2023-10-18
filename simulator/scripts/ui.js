@@ -134,9 +134,9 @@ class UI {
 
         // DRAW COMPONENTS ON SHELF
         componentsShelf.forEach((item) => {
-            const image = item.states.default.image
+            const image = 
             this.c.drawImage(
-                image,
+                item.states.default.image,
                 item.size.box.x, 
                 item.size.box.y, 
                 item.size.box.width,

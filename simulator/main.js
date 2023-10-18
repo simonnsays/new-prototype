@@ -47,10 +47,13 @@ class Game {
         if (this.selectedComponent && Object.keys(this.pcToBuild.item).length !== 0) {
             this.pcToBuild.getSlots(this.pcToBuild.item, this.selectedComponent)
             this.pcToBuild.availableSlots.forEach(slot => {
-                slot.occupied = {}
+                if(slot.occupied && Object.keys(slot.occupied).length === 0) {
+                    slot.occupied = {}
+                }
                 this.ui.drawSlot(slot)
             })
         }
+
     }
 
     // HANDLE MOUSE MOVE
@@ -64,12 +67,17 @@ class Game {
     }
 
     handleMouseUp() {
-        if(this.selectedComponent && Object.keys(this.selectedComponent).length !== 0) {                 /////////// FINISH ATTACHMENT OF COMPONENTS//////////
+        if(this.selectedComponent && Object.keys(this.selectedComponent).length !== 0) {
 
             // CHECK IF SELECTED COMPONENT IS NEAR THE SLOT, THEN ATTACH
             if(this.pcToBuild.availableSlots) {
                 this.pcToBuild.availableSlots.forEach(slot => {
                     if (this.ui.partsAreClose(this.selectedComponent, slot)) {
+                        // DON'T ATTACH IF SLOT ALREADY OCCUPIED
+                        if(slot.occupied && Object.keys(slot.occupied).length !== 0 ) {
+                            return
+                        }
+
                         // PLACE SELECTED COMPONENT IN SLOT CASE
                         slot.occupied = JSON.parse(JSON.stringify(this.selectedComponent))
 
@@ -109,8 +117,6 @@ class Game {
 
     shopInit() {
         this.shop.fillShop(components)
-        // this.ui.componentsArea.splice(2,1)
-        console.log(this.ui.componentsArea)
 
         // CREATE ELEMENT PER ITEM IN THE SHOP
         this.shop.items.forEach(item => {
@@ -183,17 +189,17 @@ class Game {
                             this.pcToBuild.item = newItem
                         }
                     } else {
-                        if(this.componentsShelf.length === this.ui.componentsArea.length) {
+                        if(this.componentsShelf.length >= this.ui.componentsArea.length) {
                             const tmp = this.componentsShelf.splice(this.componentsShelf.length -1, 2)
                             tmp.forEach(item => {
                                 invItems.push(item)
                             })
                             this.componentsShelf.unshift(newItem)
                             this.updateInv()
-
                         } else {
                             this.componentsShelf.unshift(newItem)
                         }
+                            // WOBBLY CODE, return if statements doesnt work but if-else does
                     }
 
                     // CREATE BOX FOR COMPONENTS FOR INTERACTIONS
@@ -221,7 +227,6 @@ class Game {
                         }
                         // CREATE SLOT
                         this.ui.createSlotBox(item)
-                        console.log('ITEM MADE')
                     })
 
                     this.updateInv()
