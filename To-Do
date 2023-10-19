@@ -21,3 +21,5 @@ Bugs/Problems:
 - [/] Placing components when the component shelf is already full just returns error (no more indexes on shelf, see main.updateInv()) 
         [Component shelf now returns the last component to inventory and adds the new component]
 - [/] clicking on a new component when a component of the same type is already attached to the pc case removes the already attached component
+- [] search/category problem: once category is pressed and turned off, all items are gone
+- [] s/c problem: once you type in search and delete all text, items are gone

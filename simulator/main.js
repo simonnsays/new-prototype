@@ -152,14 +152,20 @@ class Game {
         })
     }
 
-    updateShop(sortedItems) {
-        const shopItems = sortedItems
+    updateShop(items) {
+        const shopItems = items
         const shopArea = this.shop.getShopArea()
+
+        console.log(items)
 
         while(shopArea.firstChild) {
             shopArea.removeChild(shopArea.firstChild)
         }
 
+        if(shopItems.length == 0) {
+            return
+        }
+        console.log()
         shopItems.forEach(item => {
             const element = this.ui.makeItemElement(item)
             shopArea.appendChild(element)
@@ -291,30 +297,16 @@ class Game {
         // SORT SHOP BY CATEGORY
         this.shop.categories.forEach(category  => {
             category.addEventListener('click', () => {
-                // TOGGLABLE 
-                if(category.active) {
-                    category.active = false
-                    this.updateShop(this.shop.items)
-                    this.shop.updateCategoryDisplay()
-                    return
-                }
-            
-                this.shop.categories.forEach(category => {
-                    category.active = false
-                })
-
-                category.active = true
-
-                this.shop.updateCategoryDisplay()
-
-                const sortedItems = []
-                this.shop.items.forEach(item => {
-                    if(category.dataset.id == item.type) {
-                        sortedItems.push(item)
-                        this.updateShop(sortedItems)
-                    }
-                })
+                this.updateShop(this.shop.sortedItems)
             })
+        })
+        // SORT BY NAME 
+        this.shop.searchBar.element.addEventListener('input', (e) => {
+            // if(e.target.value.length == 0) {
+            //     this.updateShop(this.shop.sortedItems)
+            //     return
+            // }
+            this.updateShop(this.shop.sortedItems)
         })
     }
 }

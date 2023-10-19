@@ -3,19 +3,25 @@ import SearchBar from "./search.js"
 class Shop {
     constructor(domElements) {
         this.domElements = domElements
-        this.area = domElements.getShop()
-        this.itemsArea = domElements.getShopItemsContainer()
-
-        // SEARCH BAR
-        this.searchBar = new SearchBar(domElements.getShopSearch())
-
+        this.area = domElements.getShop() // modal area
+        this.itemsArea = domElements.getShopItemsContainer() // shop items area
         // FOR COMPONENTS AVAILABLE
         this.items = []
         this.sortedItems = []
 
+        // FOR SORTING
+        this.tmpItems = []
+        this.searchResults = []
+
+        // SEARCH BAR
+        this.searchBar = new SearchBar(domElements.getShopSearch())
+        this.searchBar.element.addEventListener('input', (e) => this.handleSearchInput(e))
+
+        // CATEGORY SORT
         this.categories = domElements.getShopCategories() 
         this.categories.forEach(category => {
-                category.active = false
+            category.active = false
+            category.addEventListener('click', () => this.categorySort(category))
         })
     }
 
@@ -33,14 +39,80 @@ class Shop {
         container.items.push(item)
     }
 
-    updateCategoryDisplay() {
-        this.categories.forEach(inCategory => {
-            if (inCategory.active) {
-                inCategory.style.backgroundColor = this.domElements.mint
-            } else {
-                inCategory.style.backgroundColor = ''
+    sortItems() {
+        this.sortedItems = []
+        let sortCategory = {}
+
+        // CHECK IF THERE'S A SELECTED CATEGORY
+        this.categories.forEach(category => {
+            if(category.active) sortCategory = category
+        })
+
+        // IF NO SELECTED CATEGORY
+        if(Object.keys(sortCategory).length == 0) {
+            this.sortedItems = this.searchResults
+            return
+        }
+
+        // IF NO MATCHED SEARCH RESULT
+        if(this.searchResults.length == 0) {
+            this.items.forEach(item => {
+                if(sortCategory.dataset.id === item.type) {
+                    this.sortedItems.push(item)
+                }
+            })
+            return
+        }
+
+        // IF THE CATEGORY MATCHES THE TYPE IN RESULTS
+        this.searchResults.forEach(result => {
+            if(sortCategory.dataset.id == result.type) {
+                this.sortedItems.push(result)
             }
         })
+        console.log('reached')
+    }
+
+    categorySort(category) {
+        // CHECK IF ALREADY PRESSED/ACTIVE
+        if(category.active) {
+            category.active = false
+            this.updateCategoryDisplay()
+            this.sortItems()
+            return
+        }
+
+        // ONLY ONE ACTIVE CATEGORY PER TIME
+        this.categories.forEach(category2 => {
+            category2.active = false
+        })
+
+        category.active = true
+        this.updateCategoryDisplay()
+        this.sortItems()
+    }
+
+    updateCategoryDisplay() {
+        this.categories.forEach(inCategory => {
+            inCategory.active ? inCategory.style.backgroundColor = this.domElements.mint :inCategory.style.backgroundColor = ''
+        })
+    }
+
+    handleSearchInput(e) {
+        const pattern = e.target.value
+
+        // if(pattern.length == 0) {
+        //     this.sortedItems = this.items
+        //     console.log(this.items)
+        //     this.sortItems()
+        //     return
+        // }
+
+        this.searchResults = []
+        this.searchResults = this.items.filter(item => this.searchBar.kmpSearch(item.name.toLowerCase(), pattern.toLowerCase()).length > 0)
+
+        this.sortItems()
+        console.log(this.searchResults)
     }
 }
 
