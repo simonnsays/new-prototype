@@ -3,10 +3,18 @@ class Shop {
         this.domElements = domElements
         this.area = domElements.getShop()
         this.itemsArea = domElements.getShopItemsContainer()
+        // FOR COMPONENTS AVAILABLE
         this.items = []
-        this.activeButton = {}
+        this.sortedItems = []
 
         this.categories = domElements.getShopCategories() 
+        this.categories.forEach(category => {
+                category.active = false
+        })
+    }
+
+    getShopArea() {
+        return this.itemsArea
     }
 
     fillShop(components) {
@@ -20,16 +28,15 @@ class Shop {
     }
 
     updateCategoryDisplay(category) {
-        if(this.activeButton && Object.keys(this.activeButton).length == 0) {
-            this.activeButton = category
-            this.activeButton.style.backgroundColor = this.domElements.mint
+        let categoryType = category.dataset.id
 
-            this.categories.forEach(category => {
-                if(category !== this.activeButton) {
-                    category.style.backgroundColor = ''
-                }
-            })
-        }
+        this.categories.forEach(inCategory => {
+            if (inCategory.active) {
+                inCategory.style.backgroundColor = this.domElements.mint
+            } else {
+                inCategory.style.backgroundColor = ''
+            }
+        })
     }
 }
 

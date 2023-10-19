@@ -117,33 +117,54 @@ class Game {
             const element = this.ui.makeItemElement(item)
             this.shop.itemsArea.appendChild(element)
 
-            // UPDATE INFO MODAL TO SHOW ITEM INFO/SPECS
-            element.addEventListener('click', () => {
-                //QUICK BUY FEATURE
-                const quickBuy = this.domElements.getQuickBuyBox()
-                if(quickBuy.checked) {
-                    this.shop.buyItem(item, this.inventory)
-                    this.updateInv()
-                    return
-                }
+            this.shopItemOnclick(element, item)
+            
+        })
+    }
 
-                // ITEM INFORMATION MODAL
-                const infoContainer = this.domElements.getInfoModal()
-                const itemInfo = this.ui.makeInfoDialog(item)
-                const buyButton = this.ui.makeButton('BUY')
-                itemInfo.appendChild(buyButton)
+    shopItemOnclick(element, item) {
+        // UPDATE INFO MODAL TO SHOW ITEM INFO/SPECS
+        element.addEventListener('click', () => {
+            //QUICK BUY FEATURE
+            const quickBuy = this.domElements.getQuickBuyBox()
+            if(quickBuy.checked) {
+                this.shop.buyItem(item, this.inventory)
+                this.updateInv()
+                return
+            }
 
-                buyButton.addEventListener ('click', () => {
-                    this.shop.buyItem(item, this.inventory)
-                    infoContainer.close()
-                    this.updateInv()    
-                
-                })
+            // ITEM INFORMATION MODAL
+            const infoContainer = this.domElements.getInfoModal()
+            const itemInfo = this.ui.makeInfoDialog(item)
+            const buyButton = this.ui.makeButton('BUY')
+            itemInfo.appendChild(buyButton)
 
-                this.ui.updateInfoDialog(itemInfo, infoContainer)
-                infoContainer.showModal()
-                this.ui.handleOutOfModal(infoContainer)
+            buyButton.addEventListener ('click', () => {
+                this.shop.buyItem(item, this.inventory)
+                infoContainer.close()
+                this.updateInv()    
+            
             })
+
+            this.ui.updateInfoDialog(itemInfo, infoContainer)
+            infoContainer.showModal()
+            this.ui.handleOutOfModal(infoContainer)
+        })
+    }
+
+    updateShop(sortedItems) {
+        const shopItems = sortedItems
+        const shopArea = this.shop.getShopArea()
+
+        while(shopArea.firstChild) {
+            shopArea.removeChild(shopArea.firstChild)
+        }
+
+        shopItems.forEach(item => {
+            const element = this.ui.makeItemElement(item)
+            shopArea.appendChild(element)
+
+            this.shopItemOnclick(element, item)
         })
     }
 
@@ -161,7 +182,7 @@ class Game {
 
             // UPDATE INFO MODAL TO SHOW ITEM INFO/SPECS
             element.addEventListener('click', () => {
-                // invToCanvas() ABSTRACTED FUNCTION
+                // ABSTRACTED FUNCTION -- TRANSFER TO CANVAS
                 const invToCanvas = () => {
 
                     // CLONE ITEM AND RECREATE IMAGE ELEMENT SO THAT IT WONT REFERENCE THE SAME ITEM IN BOX CREATION
@@ -173,7 +194,7 @@ class Game {
                     }
 
                     // SEPARATE THE CASE AND COMPONENTS
-                    if(newItem.type == 'pcCase') {
+                    if(newItem.type == 'case') {
                         if(Object.keys(this.pcToBuild.item).length !== 0 ) {
                             this.inventory.items.push(this.pcToBuild.item)
 
@@ -266,9 +287,32 @@ class Game {
         this.shopInit() 
         this.ui.animate(this.pcToBuild, this.componentsShelf)
 
-        this.shop.categories.forEach(category => {
+        // SORT SHOP BY CATEGORY
+        this.shop.categories.forEach(category  => {
             category.addEventListener('click', () => {
+                // TOGGLABLE 
+                if(category.active) {
+                    category.active = false
+                    this.updateShop(this.shop.items)
+                    this.shop.updateCategoryDisplay(category)
+                    return
+                }
+            
+                this.shop.categories.forEach(category => {
+                    category.active = false
+                })
+
+                category.active = true
+
                 this.shop.updateCategoryDisplay(category)
+
+                const sortedItems = []
+                this.shop.items.forEach(item => {
+                    if(category.dataset.id == item.type) {
+                        sortedItems.push(item)
+                        this.updateShop(sortedItems)
+                    }
+                })
             })
         })
     }

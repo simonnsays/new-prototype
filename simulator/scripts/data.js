@@ -1,8 +1,8 @@
 import Component from "./component.js"
 
-let components = [
+const components = [
     new Component({
-        type: 'pcCase',
+        type: 'case',
         name: 'Nanoxia Deep Silence 3',
         size: {
             formFactor: 'mid-tower',
@@ -15,7 +15,7 @@ let components = [
             front: {imageSrc: './assets/PC Case/Nanoxia Deep Silence 3/Front.png'}
         },
         slots: [{
-            name: 'MoBo', 
+            name: 'motherboard', 
             offset: {
                 x: 37, 
                 y: 49, 
@@ -33,7 +33,7 @@ let components = [
     }),
 
     new Component({
-        type: 'MoBo',
+        type: 'motherboard',
         name: 'ASUS P8P67',
         size: {
             formFactor: 'ATX',

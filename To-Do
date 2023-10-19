@@ -9,7 +9,8 @@ To-Dos:
 - [] Final Page (show components as a list)
 - [|] Sort Items by Category
         |_ [/] upon press of a category, keep shadow on it
-        |_ [] display items based on categor (use kmp perhaps but irrelevant)
+        |_ [/] able to turn it on and off (togglable) 
+        |_ [/] display items based on category (use kmp perhaps but irrelevant)
 
 Bugs/Problems:
 
