@@ -1,19 +1,21 @@
 To-Dos:
-
-- [] Search Bar (KMP Algorithm)
-- [] Compatibility checks for components(attachment logic)
-- [] Money Simulation (both in shops and component prices) 
 - [] The "Assistant" 
         |_ [] add error and warning messages
 - [] Choose between 'Tutorial' and 'Free build' mode Page 
 - [] Final Page (show components as a list)
-- [|] Sort Items by Category
+- [] Item Information Page (pop up when selecting a component)
+- [|] Search Bar (KMP Algorithm)
+        |_ [] It works both on shop and inventory
+        |_ [] display items based on search input
+- [] Compatibility checks for components(attachment logic)
+- [] Money Simulation (both in shops and component prices) 
+- [/] Sort Items by Category
         |_ [/] upon press of a category, keep shadow on it
         |_ [/] able to turn it on and off (togglable) 
         |_ [/] display items based on category (use kmp perhaps but irrelevant)
 
-Bugs/Problems:
 
+Bugs/Problems:
 - [/] Placing a PC case when a case is already on the canvas does not replace the pc (the pc does not return to inventory)
         [PC case now replaces the one placed in canvas and returns the old case to inventory]
 - [/] Placing components when the component shelf is already full just returns error (no more indexes on shelf, see main.updateInv()) 

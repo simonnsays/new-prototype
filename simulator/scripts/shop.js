@@ -1,8 +1,14 @@
+import SearchBar from "./search.js"
+
 class Shop {
     constructor(domElements) {
         this.domElements = domElements
         this.area = domElements.getShop()
         this.itemsArea = domElements.getShopItemsContainer()
+
+        // SEARCH BAR
+        this.searchBar = new SearchBar(domElements.getShopSearch())
+
         // FOR COMPONENTS AVAILABLE
         this.items = []
         this.sortedItems = []
@@ -27,9 +33,7 @@ class Shop {
         container.items.push(item)
     }
 
-    updateCategoryDisplay(category) {
-        let categoryType = category.dataset.id
-
+    updateCategoryDisplay() {
         this.categories.forEach(inCategory => {
             if (inCategory.active) {
                 inCategory.style.backgroundColor = this.domElements.mint

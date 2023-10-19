@@ -284,6 +284,7 @@ class Game {
         this.ui.canvas.addEventListener('mousemove', (e) => this.handleMouseMove(e)) 
         this.ui.canvas.addEventListener('mouseup', () => this.handleMouseUp())
 
+        // INITIALIZE GAME
         this.shopInit() 
         this.ui.animate(this.pcToBuild, this.componentsShelf)
 
@@ -294,7 +295,7 @@ class Game {
                 if(category.active) {
                     category.active = false
                     this.updateShop(this.shop.items)
-                    this.shop.updateCategoryDisplay(category)
+                    this.shop.updateCategoryDisplay()
                     return
                 }
             
@@ -304,7 +305,7 @@ class Game {
 
                 category.active = true
 
-                this.shop.updateCategoryDisplay(category)
+                this.shop.updateCategoryDisplay()
 
                 const sortedItems = []
                 this.shop.items.forEach(item => {

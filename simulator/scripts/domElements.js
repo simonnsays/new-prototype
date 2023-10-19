@@ -15,6 +15,7 @@ class DomElements {
         this.shopButtons = document.querySelectorAll('.shop-btn')
         this.quickBuy = document.querySelector('#quickBuy')
         this.shopCategories = document.querySelectorAll('[data-category="shop"]')
+        this.shopSearch = document.querySelector('#shopSearch')
     
         // INVENTORY DOM ELEMENTS
         this.inv = document.querySelector('#inventory')
@@ -60,6 +61,10 @@ class DomElements {
 
     getShopCategories() {
         return this.shopCategories
+    }
+
+    getShopSearch() {
+        return this.shopSearch
     }
 
     //  INV METHODS
