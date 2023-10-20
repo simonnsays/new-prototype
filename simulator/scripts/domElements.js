@@ -22,6 +22,8 @@ class DomElements {
         this.invItemsContainer = document.querySelector('.items-inv')
         this.invButtons = document.querySelectorAll('.inv-btn')
         this.quickPlace = document.querySelector('#quickPlace')
+        this.invCategories = document.querySelectorAll('[data-category="inv')
+        this.invSearch = document.querySelector('#invSearch')
 
         // COLOR PALETTE
         this.teal = getComputedStyle(document.documentElement).getPropertyValue('--teal')
@@ -82,6 +84,14 @@ class DomElements {
 
     getQuickPlace() {
         return this.quickPlace
+    }
+
+    getInvCategories() {
+        return this.invCategories
+    }
+
+    getInvSearch() {
+        return this.invSearch
     }
     
     // OTHERS

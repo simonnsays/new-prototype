@@ -129,7 +129,7 @@ class Game {
             const quickBuy = this.domElements.getQuickBuyBox()
             if(quickBuy.checked) {
                 this.shop.buyItem(item, this.inventory)
-                this.updateInv()
+                this.updateInv(this.inventory.items)
                 return
             }
 
@@ -142,7 +142,7 @@ class Game {
             buyButton.addEventListener ('click', () => {
                 this.shop.buyItem(item, this.inventory)
                 infoContainer.close()
-                this.updateInv()    
+                this.updateInv(this.inventory.items)    
             
             })
 
@@ -174,8 +174,8 @@ class Game {
         })
     }
 
-    updateInv() {
-        const invItems = this.inventory.getItems()
+    updateInv(items) {
+        const invItems = items//this.inventory.getItems()
         const invArea = this.inventory.getInvArea()
         
         while(invArea.firstChild) {
@@ -205,7 +205,7 @@ class Game {
                             this.inventory.items.push(this.pcToBuild.item)
 
                             this.pcToBuild.item = newItem
-                            this.updateInv()
+                            this.updateInv(this.inventory.items)
                         } else {
                             this.pcToBuild.item = newItem
                         }
@@ -216,7 +216,7 @@ class Game {
                                 invItems.push(item)
                             })
                             this.componentsShelf.unshift(newItem)
-                            this.updateInv()
+                            this.updateInv(this.inventory.items)
                         } else {
                             this.componentsShelf.unshift(newItem)
                         }
@@ -250,7 +250,7 @@ class Game {
                         this.ui.createSlotBox(item)
                     })
 
-                    this.updateInv()
+                    this.updateInv(this.inventory.items)
                 }
 
                 //QUICK PLACE FEATURE
@@ -294,19 +294,28 @@ class Game {
         this.shopInit() 
         this.ui.animate(this.pcToBuild, this.componentsShelf)
 
-        // SORT SHOP BY CATEGORY
+        /////////////////////// SORT SHOP 
+        // BY CATEGORY
         this.shop.categories.forEach(category  => {
             category.addEventListener('click', () => {
                 this.updateShop(this.shop.sortedItems)
             })
         })
-        // SORT BY NAME 
+        // BY NAME 
         this.shop.searchBar.element.addEventListener('input', (e) => {
-            if(e.target.value.length == 0) {
-                this.updateShop(this.shop.items)
-                return
-            }
             this.updateShop(this.shop.sortedItems)
+        })
+
+        ///////////////////// SORT INVENTORY
+        // BY CATEGORY
+        this.inventory.categories.forEach(category => {
+            category.addEventListener('click', () => {
+                this.updateInv(this.inventory.sortedItems)
+            })
+        })
+        // BY NAME
+        this.inventory.searchBar.element.addEventListener('input', (e) => {
+            this.updateInv(this.inventory.sortedItems)
         })
     }
 }
