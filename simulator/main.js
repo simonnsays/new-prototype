@@ -302,10 +302,10 @@ class Game {
         })
         // SORT BY NAME 
         this.shop.searchBar.element.addEventListener('input', (e) => {
-            // if(e.target.value.length == 0) {
-            //     this.updateShop(this.shop.sortedItems)
-            //     return
-            // }
+            if(e.target.value.length == 0) {
+                this.updateShop(this.shop.items)
+                return
+            }
             this.updateShop(this.shop.sortedItems)
         })
     }

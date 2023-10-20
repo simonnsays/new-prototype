@@ -11,7 +11,7 @@ class Shop {
 
         // FOR SORTING
         this.tmpItems = []
-        this.searchResults = []
+        this.searchResults = this.items
 
         // SEARCH BAR
         this.searchBar = new SearchBar(domElements.getShopSearch())
@@ -40,37 +40,37 @@ class Shop {
     }
 
     sortItems() {
+        // CLEAR SORTED ITEMS ARRAY
         this.sortedItems = []
+        
+        // CHECK THE SELECTED CATEGORY
         let sortCategory = {}
-
-        // CHECK IF THERE'S A SELECTED CATEGORY
         this.categories.forEach(category => {
-            if(category.active) sortCategory = category
+            if(category.active) {
+                sortCategory = category
+            }
         })
 
-        // IF NO SELECTED CATEGORY
+        // IF NO CATEGORY SELECTED
         if(Object.keys(sortCategory).length == 0) {
+            // SEARCH RESULTS
             this.sortedItems = this.searchResults
             return
         }
 
-        // IF NO MATCHED SEARCH RESULT
-        if(this.searchResults.length == 0) {
-            this.items.forEach(item => {
-                if(sortCategory.dataset.id === item.type) {
-                    this.sortedItems.push(item)
-                }
-            })
-            return
+        // IF A CATEGORY IS SELECTED
+        if(Object.keys(sortCategory).length > 0) {
+            // CHECK IF SEARCH HAS A RESULT
+            if(this.searchResults.length > 0) {
+                // CHECK FOR MATCH IN SEARCH INPUT AND CATEGORY
+                this.searchResults.forEach(result => {
+                    if(sortCategory.dataset.id == result.type) {
+                        this.sortedItems.push(result)
+                    }
+                })
+            }
         }
 
-        // IF THE CATEGORY MATCHES THE TYPE IN RESULTS
-        this.searchResults.forEach(result => {
-            if(sortCategory.dataset.id == result.type) {
-                this.sortedItems.push(result)
-            }
-        })
-        console.log('reached')
     }
 
     categorySort(category) {
@@ -78,6 +78,7 @@ class Shop {
         if(category.active) {
             category.active = false
             this.updateCategoryDisplay()
+            this.sortedItems = this.items
             this.sortItems()
             return
         }
@@ -101,12 +102,11 @@ class Shop {
     handleSearchInput(e) {
         const pattern = e.target.value
 
-        // if(pattern.length == 0) {
-        //     this.sortedItems = this.items
-        //     console.log(this.items)
-        //     this.sortItems()
-        //     return
-        // }
+        if(pattern.length == 0) {
+            this.searchResults = this.items
+            this.sortItems()
+            return
+        }
 
         this.searchResults = []
         this.searchResults = this.items.filter(item => this.searchBar.kmpSearch(item.name.toLowerCase(), pattern.toLowerCase()).length > 0)
