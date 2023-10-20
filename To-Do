@@ -4,9 +4,10 @@ To-Dos:
 - [] Choose between 'Tutorial' and 'Free build' mode Page 
 - [] Final Page (show components as a list)
 - [] Item Information Page (pop up when selecting a component)
-- [|] Search Bar (KMP Algorithm)
-        |_ [] It works both on shop and inventory
-        |_ [] display items based on search input
+- [/] Search Bar (KMP Algorithm)
+        |_ [/] It works on shop
+        |_ [/] It works on inventory
+        |_ [/] display items based on search input
 - [] Compatibility checks for components(attachment logic)
 - [] Money Simulation (both in shops and component prices) 
 - [/] Sort Items by Category
@@ -23,4 +24,5 @@ Bugs/Problems:
 - [/] clicking on a new component when a component of the same type is already attached to the pc case removes the already attached component
 - [/] search/category problem: once category is pressed and turned off, all items are gone
 - [/] s/c problem: once you type in search and delete all text, items are gone
-- [] on startup, upon choosing a category and unclicking it, items are gone. Items comes back after typing a search (problem with intialization of shop.searchResults)
+- [/] on startup, upon choosing a category and unclicking it, items are gone. Items comes back after typing a search (problem with intialization of shop.searchResults)
+- [] placing components to canvas doesnt update inventory properly

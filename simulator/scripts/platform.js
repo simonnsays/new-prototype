@@ -6,7 +6,7 @@ class Platform {
 
         // FOR COMPONENTS AVAILABLE
         this.items = []
-        this.sortedItems = []
+        this.sortedItems = this.items
 
         // FOR SORTING
         this.tmpItems = []
