@@ -19,10 +19,6 @@ class Shop extends Platform{
         })
     }
 
-    getShopArea() {
-        return this.itemsArea
-    }
-
     fillShop(components) {
         components.forEach(component => {
             this.items.push(component)  
@@ -31,6 +27,18 @@ class Shop extends Platform{
 
     buyItem(item, container) {
         container.items.push(item)
+    }
+
+    handleSearchInput(e) {
+        // const pattern = e.target.value
+
+        // if(pattern.length == 0) {
+        //     this.searchResults = [...this.items]
+        //     this.sortItems()
+        //     return
+        // }
+
+        super.handleSearchInput(e)
     }
 }
 

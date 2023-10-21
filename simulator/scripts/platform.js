@@ -1,29 +1,16 @@
 class Platform {
     constructor(domElements) {
         this.domElements = domElements
-        // this.itemsArea = domElements.getShopItemsContainer() // shop items area
         this.itemsArea = {}
 
         // FOR COMPONENTS AVAILABLE
         this.items = []
-        this.sortedItems = this.items
+        this.sortedItems = [...this.items]
 
         // FOR SORTING
         this.tmpItems = []
-        this.searchResults = this.items
-
-        // SEARCH BAR
-        // this.searchBar = new SearchBar(domElements.getShopSearch())
-        // this.searchBar = {}
-        // this.searchBar.element.addEventListener('input', (e) => this.handleSearchInput(e))
-
-        // CATEGORY SORT
-        // this.categories = domElements.getShopCategories()
-        this.categories = {} 
-        // this.categories.forEach(category => {
-        //     category.active = false
-        //     category.addEventListener('click', () => this.categorySort(category))
-        // })
+        this.searchResults = [...this.items]
+        this.sortCategory = {}
     }
 
     getItems() {
@@ -39,33 +26,47 @@ class Platform {
         this.sortedItems = []
         
         // CHECK THE SELECTED CATEGORY
-        let sortCategory = {}
+        this.sortCategory = {}
         this.categories.forEach(category => {
             if(category.active) {
-                sortCategory = category
+                this.sortCategory = category
+                
             }
         })
+        console.log(Object.keys(this.sortCategory).length)
 
         // IF NO CATEGORY SELECTED
-        if(Object.keys(sortCategory).length == 0) {
+        if(Object.keys(this.sortCategory).length == 0) {
             // SEARCH RESULTS
-            this.sortedItems = this.searchResults
-            return
+            if(this.searchResults.length > 0) {
+                this.sortedItems = this.searchResults
+                return
+            }
+
+            this.sortedItems = [...this.items]
+            
         }
 
         // IF A CATEGORY IS SELECTED
-        if(Object.keys(sortCategory).length > 0) {
+        if(Object.keys(this.sortCategory).length > 0) {
             // CHECK IF SEARCH HAS A RESULT
             if(this.searchResults.length > 0) {
                 // CHECK FOR MATCH IN SEARCH INPUT AND CATEGORY
                 this.searchResults.forEach(result => {
-                    if(sortCategory.dataset.id == result.type) {
+                    if(this.sortCategory.dataset.id == result.type) {
                         this.sortedItems.push(result)
                     }
                 })
+                return
             }
-        }
 
+            // IF SEARCH HAS NO RESULT
+            this.items.forEach(item => { 
+                if(item.type == this.sortCategory.dataset.id) {
+                    this.sortedItems.push(item)
+                }
+            })
+        }
     }
 
     categorySort(category) {
@@ -73,7 +74,7 @@ class Platform {
         if(category.active) {
             category.active = false
             this.updateCategoryDisplay()
-            this.sortedItems = this.items
+            this.sortedItems = [...this.items]
             this.sortItems()
             return
         }
@@ -96,12 +97,6 @@ class Platform {
 
     handleSearchInput(e) {
         const pattern = e.target.value
-
-        if(pattern.length == 0) {
-            this.searchResults = this.items
-            this.sortItems()
-            return
-        }
 
         this.searchResults = []
         this.searchResults = this.items.filter(item => this.searchBar.kmpSearch(item.name.toLowerCase(), pattern.toLowerCase()).length > 0)

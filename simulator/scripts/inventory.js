@@ -6,6 +6,9 @@ class Inventory extends Platform{
         super(domElements)
         this.itemsArea = domElements.getInvItemsContainer() // inv items area
 
+        this.items = []
+        this.sortedItems = [...this.items]
+
         // SEARCH BAR
         this.searchBar = new SearchBar(domElements.getInvSearch())
         this.searchBar.element.addEventListener('input', (e) => this.handleSearchInput(e))
@@ -16,10 +19,6 @@ class Inventory extends Platform{
             category.active = false
             category.addEventListener('click', () => this.categorySort(category))
         })
-    }
-
-    getInvArea() {
-        return this.itemsArea
     }
 }
 

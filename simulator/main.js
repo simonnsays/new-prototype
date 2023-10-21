@@ -153,8 +153,8 @@ class Game {
     }
 
     updateShop(items) {
-        const shopItems = items
-        const shopArea = this.shop.getShopArea()
+        const shopItems = this.shop.sortedItems
+        const shopArea = this.shop.getItemsArea()
 
         console.log(items)
 
@@ -175,14 +175,15 @@ class Game {
     }
 
     updateInv(items) {
-        const invItems = items//this.inventory.getItems()
-        const invArea = this.inventory.getInvArea()
+        const invItems = this.inventory.getItems()
+        const invSortedItems = items//this.inventory.getItems()
+        const invArea = this.inventory.getItemsArea()
         
         while(invArea.firstChild) {
             invArea.removeChild(invArea.firstChild)
         }
 
-        invItems.forEach((item, index) => {
+        invSortedItems.forEach((item, index) => {
             const element = this.ui.makeItemElement(item)
             invArea.appendChild(element)
 
@@ -205,7 +206,7 @@ class Game {
                             this.inventory.items.push(this.pcToBuild.item)
 
                             this.pcToBuild.item = newItem
-                            this.updateInv(this.inventory.items)
+                            this.updateInv(this.inventory.sortedItems)
                         } else {
                             this.pcToBuild.item = newItem
                         }
@@ -216,7 +217,7 @@ class Game {
                                 invItems.push(item)
                             })
                             this.componentsShelf.unshift(newItem)
-                            this.updateInv(this.inventory.items)
+                            this.updateInv(this.inventory.sortedItems)
                         } else {
                             this.componentsShelf.unshift(newItem)
                         }
@@ -250,13 +251,15 @@ class Game {
                         this.ui.createSlotBox(item)
                     })
 
-                    this.updateInv(this.inventory.items)
+                    
+                    this.updateInv(this.inventory.sortedItems)
                 }
 
                 //QUICK PLACE FEATURE
                 const quickPlace = this.domElements.getQuickPlace()
                 if(quickPlace.checked) {
                     invItems.splice(index, 1)
+                    this.inventory.sortItems()
                     invToCanvas()
                     return
                 } 
@@ -270,6 +273,7 @@ class Game {
                 // UPDATE CANVAS UPON PLACE BUTTON CLICK & QUICK PLACE
                 placeButton.addEventListener ('click', () => {
                     invItems.splice(index, 1)
+                    this.inventory.sortItems()
                     invToCanvas()
                     infoContainer.close()
                 

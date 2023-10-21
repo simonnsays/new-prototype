@@ -25,4 +25,4 @@ Bugs/Problems:
 - [/] search/category problem: once category is pressed and turned off, all items are gone
 - [/] s/c problem: once you type in search and delete all text, items are gone
 - [/] on startup, upon choosing a category and unclicking it, items are gone. Items comes back after typing a search (problem with intialization of shop.searchResults)
-- [] placing components to canvas doesnt update inventory properly
+- [/] placing components to canvas doesnt update inventory properly
