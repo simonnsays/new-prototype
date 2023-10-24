@@ -1,6 +1,7 @@
 class Platform {
-    constructor(domElements) {
+    constructor(domElements, ui) {
         this.domElements = domElements
+        this.ui = ui
         this.itemsArea = {}
 
         // FOR COMPONENTS AVAILABLE
@@ -24,33 +25,42 @@ class Platform {
     sortItems() {
         // CLEAR SORTED ITEMS ARRAY
         this.sortedItems = []
-        
         // CHECK THE SELECTED CATEGORY
         this.sortCategory = {}
         this.categories.forEach(category => {
             if(category.active) {
                 this.sortCategory = category
-                
             }
         })
-        console.log(Object.keys(this.sortCategory).length)
 
         // IF NO CATEGORY SELECTED
         if(Object.keys(this.sortCategory).length == 0) {
-            // SEARCH RESULTS
+            // IF SEARCH BAR IS BEING USED BUT NO RESULT
+            if(this.searchBar.element.value.length > 0 && this.searchResults == 0) {
+                this.sortedItems = []
+                return
+            }
+            // IF THERE ARE RESULTS WHILE USING SEARCH BAR
             if(this.searchResults.length > 0) {
                 this.sortedItems = this.searchResults
                 return
             }
 
+            // IF SEARCH BAR WAS NOT USED
             this.sortedItems = [...this.items]
-            
+            return
         }
 
         // IF A CATEGORY IS SELECTED
         if(Object.keys(this.sortCategory).length > 0) {
+            if(this.searchBar.element.value.length > 0 && this.searchResults == 0) {
+                this.sortedItems = []
+                return
+            }
+
             // CHECK IF SEARCH HAS A RESULT
             if(this.searchResults.length > 0) {
+                
                 // CHECK FOR MATCH IN SEARCH INPUT AND CATEGORY
                 this.searchResults.forEach(result => {
                     if(this.sortCategory.dataset.id == result.type) {
@@ -102,7 +112,18 @@ class Platform {
         this.searchResults = this.items.filter(item => this.searchBar.kmpSearch(item.name.toLowerCase(), pattern.toLowerCase()).length > 0)
 
         this.sortItems()
-        console.log(this.searchResults)
+    }
+
+    resetFilter() {
+        this.categories.forEach(category => {
+            category.active = false
+            this.updateCategoryDisplay()
+        })
+
+        this.searchBar.element.value = ''
+        this.searchResults = []
+        console.log('reached')
+        this.sortItems()
     }
 }
 

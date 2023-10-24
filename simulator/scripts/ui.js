@@ -27,53 +27,32 @@ class UI {
             {x: 670, y: 460, width: 300, height: 210},
             {x: 980, y: 460, width: 310, height: 210}  
         ]
-
-        // SHOP 
-        this.shop = domElements.getShop()
-        this.shopBtns = domElements.getShopButtons()
-
-        this.shopBtns.forEach(button => {
-            button.addEventListener('click', () => {
-                this.handleButtons(button)
-            })
-        })
-        this.handleOutOfModal(this.shop)
-
-        // INVENTORY
-        this.inv = domElements.getInv()
-        this.invBtns = domElements.getInvButtons()
-
-        this.invBtns.forEach(button => {
-            button.addEventListener('click', () => {
-                this.handleButtons(button)
-            })
-        })
-        this.handleOutOfModal(this.inv)
         
         // LOGIC VARIABLES
-        this.availableSlots
+        // this.availableSlots
     }
 
-    handleButtons(button) {
-        switch(button.id) {
-            case 'openShop':
-                this.shop.showModal()
-                break
-            case 'closeShop':
-                this.shop.close()
-                break
-            case 'openInv':
-                this.inv.showModal()
-                break
-            case 'closeInv':
-                this.inv.close()
-                break
-        }
+    getRawMouse() {
+        window.addEventListener('click', (e) => {
+            return e
+        })
     }
 
-    handleOutOfModal(area) {
+    handleOutofModal(area) { 
+        
         area.addEventListener('click', (e) => {
-            const mouse = {x: e.clientX, y: e.clientY}
+            console.log(e.clientX, e.clientY)
+            const isOutOfModal = this.listenOutOfModal(area, e)
+
+
+            if(isOutOfModal) area.close()
+        } )
+        
+        // console.log(area)
+    }
+
+    listenOutOfModal(area, point) { 
+        const mouse = {x: point.clientX, y: point.clientY}
             const box = ({
                 x: Math.round(area.getBoundingClientRect().x),
                 y: Math.round(area.getBoundingClientRect().y),
@@ -85,9 +64,10 @@ class UI {
                 mouse.x > box.x + box.width ||
                 mouse.y < box.y ||
                 mouse.y > box.y + box.height) {
-                area.close()
+                return true
             }
-        })
+
+            return false
     }
 
     canvasInit(){
@@ -233,6 +213,7 @@ class UI {
         this.c.fill();
     }
 
+    // UTILITY METHODS
     makeItemElement(item){
         // CREATE THE DIV
         const element = document.createElement('div')

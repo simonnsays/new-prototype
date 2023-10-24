@@ -9,9 +9,10 @@ import PCSet from "./scripts/pcSet.js"
 class Game {
     constructor() {
         this.domElements = new DomElements()
-        this.inventory = new Inventory(this.domElements)
-        this.shop = new Shop(this.domElements)
         this.ui = new UI(this.domElements)
+        this.shop = new Shop(this.domElements, this.ui)
+        this.inventory = new Inventory(this.domElements, this.ui)
+
 
         // COMPONENTS SHELF
         this.pcToBuild = new PCSet()
@@ -60,6 +61,7 @@ class Game {
         }
     }
 
+    // HANDLE MOUSE UP
     handleMouseUp() {
         if(this.selectedComponent && Object.keys(this.selectedComponent).length !== 0) {
 
@@ -91,9 +93,7 @@ class Game {
                         slot.occupied.isAttached = true
 
                         // REMOVE ITEM IN COMPONENT SHELF FOR LOGIC
-                        this.componentsShelf.splice(this.selectedComponent.i, 1)
-
-                        
+                        this.componentsShelf.splice(this.selectedComponent.i, 1) 
                     }
                 })
             }
@@ -120,6 +120,37 @@ class Game {
             this.shopItemOnclick(element, item)
             
         })
+
+        // BUTTON HANDLING
+        this.shop.shopBtns.forEach(button => {
+            button.addEventListener('click', () => {
+                this.shop.handleModalButtons(button)
+            })
+        })
+
+        // MODAL HANDLING
+        this.shop.modal.addEventListener('click', (e) => {
+            let shopArea = this.shop.modal
+            let isOutOfModal = this.ui.listenOutOfModal(shopArea, e)
+
+            // CLEAR FILTERS
+            if(isOutOfModal) {
+                this.shop.resetFilter()
+                this.updateShop(this.shop.sortedItems)
+                shopArea.close()
+            }
+        })
+
+        // FILTER BY CATEGORY
+        this.shop.categories.forEach(category  => {
+            category.addEventListener('click', () => {
+                this.updateShop(this.shop.sortedItems)
+            })
+        })
+        // FILTER BY NAME 
+        this.shop.searchBar.element.addEventListener('input', () => {
+            this.updateShop(this.shop.sortedItems)
+        })
     }
 
     shopItemOnclick(element, item) {
@@ -129,7 +160,7 @@ class Game {
             const quickBuy = this.domElements.getQuickBuyBox()
             if(quickBuy.checked) {
                 this.shop.buyItem(item, this.inventory)
-                this.updateInv(this.inventory.items)
+                console.log(this.inventory.items)
                 return
             }
 
@@ -141,22 +172,24 @@ class Game {
 
             buyButton.addEventListener ('click', () => {
                 this.shop.buyItem(item, this.inventory)
-                infoContainer.close()
-                this.updateInv(this.inventory.items)    
+                infoContainer.close()   
+                console.log(this.inventory.items)
             
             })
 
             this.ui.updateInfoDialog(itemInfo, infoContainer)
             infoContainer.showModal()
-            this.ui.handleOutOfModal(infoContainer)
+            // this.ui.handleOutOfModal(infoContainer)
+            this.ui.handleOutofModal(infoContainer)
+            
         })
+
+        
     }
 
     updateShop(items) {
         const shopItems = this.shop.sortedItems
         const shopArea = this.shop.getItemsArea()
-
-        console.log(items)
 
         while(shopArea.firstChild) {
             shopArea.removeChild(shopArea.firstChild)
@@ -165,7 +198,6 @@ class Game {
         if(shopItems.length == 0) {
             return
         }
-        console.log()
         shopItems.forEach(item => {
             const element = this.ui.makeItemElement(item)
             shopArea.appendChild(element)
@@ -175,116 +207,159 @@ class Game {
     }
 
     updateInv(items) {
-        const invItems = this.inventory.getItems()
-        const invSortedItems = items//this.inventory.getItems()
-        const invArea = this.inventory.getItemsArea()
+    //     const invItems = this.inventory.getItems()
+    //     const invSortedItems = items//this.inventory.getItems()
+    //     const invArea = this.inventory.getItemsArea()
         
-        while(invArea.firstChild) {
-            invArea.removeChild(invArea.firstChild)
-        }
+    //     while(invArea.firstChild) {
+    //         invArea.removeChild(invArea.firstChild)
+    //     }
 
-        invSortedItems.forEach((item, index) => {
-            const element = this.ui.makeItemElement(item)
-            invArea.appendChild(element)
+    //     invSortedItems.forEach((item, index) => {
+    //         const element = this.ui.makeItemElement(item)
+    //         invArea.appendChild(element)
 
-            // UPDATE INFO MODAL TO SHOW ITEM INFO/SPECS
-            element.addEventListener('click', () => {
-                // ABSTRACTED FUNCTION -- TRANSFER TO CANVAS
-                const invToCanvas = () => {
+    //         // UPDATE INFO MODAL TO SHOW ITEM INFO/SPECS
+    //         element.addEventListener('click', () => {
+    //             // ABSTRACTED FUNCTION -- TRANSFER TO CANVAS
+    //             const invToCanvas = () => {
+    //                 // CLONE ITEM AND RECREATE IMAGE ELEMENT SO THAT IT WONT REFERENCE THE SAME ITEM IN BOX CREATION
+    //                 const newItem = JSON.parse(JSON.stringify(item))
 
-                    // CLONE ITEM AND RECREATE IMAGE ELEMENT SO THAT IT WONT REFERENCE THE SAME ITEM IN BOX CREATION
-                    const newItem = JSON.parse(JSON.stringify(item))
+    //                 for(let key in item.states) {
+    //                     newItem.states[key].image = new Image()
+    //                     newItem.states[key].image.src = item.states[key].image.src
+    //                 }
 
-                    for(let key in item.states) {
-                        newItem.states[key].image = new Image()
-                        newItem.states[key].image.src = item.states[key].image.src
-                    }
+    //                 // SEPARATE THE CASE AND COMPONENTS
+    //                 if(newItem.type == 'case') {
+    //                     if(Object.keys(this.pcToBuild.item).length !== 0 ) {
+    //                         this.inventory.items.push(this.pcToBuild.item)
 
-                    // SEPARATE THE CASE AND COMPONENTS
-                    if(newItem.type == 'case') {
-                        if(Object.keys(this.pcToBuild.item).length !== 0 ) {
-                            this.inventory.items.push(this.pcToBuild.item)
+    //                         this.pcToBuild.item = newItem
+    //                         this.updateInv(this.inventory.sortedItems)
+    //                     } else {
+    //                         this.pcToBuild.item = newItem
+    //                     }
+    //                 } else {
+    //                     if(this.componentsShelf.length >= this.ui.componentsArea.length) {
+    //                         const tmp = this.componentsShelf.splice(this.componentsShelf.length -1, 2)
+    //                         tmp.forEach(item => {
+    //                             invItems.push(item)
+    //                         })
+    //                         this.componentsShelf.unshift(newItem)
+    //                         this.updateInv(this.inventory.sortedItems)
+    //                     } else {
+    //                         this.componentsShelf.unshift(newItem)
+    //                     }
+    //                         // WOBBLY CODE, return if statements doesnt work but if-else does
+    //                 }
 
-                            this.pcToBuild.item = newItem
-                            this.updateInv(this.inventory.sortedItems)
-                        } else {
-                            this.pcToBuild.item = newItem
-                        }
-                    } else {
-                        if(this.componentsShelf.length >= this.ui.componentsArea.length) {
-                            const tmp = this.componentsShelf.splice(this.componentsShelf.length -1, 2)
-                            tmp.forEach(item => {
-                                invItems.push(item)
-                            })
-                            this.componentsShelf.unshift(newItem)
-                            this.updateInv(this.inventory.sortedItems)
-                        } else {
-                            this.componentsShelf.unshift(newItem)
-                        }
-                            // WOBBLY CODE, return if statements doesnt work but if-else does
-                    }
-
-                    // CREATE BOX FOR COMPONENTS FOR INTERACTIONS
-                    if (Object.keys(this.pcToBuild.item).length > 0) {
-                        const pcItem = this.pcToBuild.item
-                        pcItem.size.box = {
-                            x: this.ui.pcCaseArea.width/ 2 - pcItem.size.width/2,
-                            y: this.ui.pcCaseArea.height/2 - pcItem.size.height/2,
-                            width: pcItem.size.width,
-                            height: pcItem.size.height
-                        }
-                        // CREATE SLOT
-                        this.ui.createSlotBox(pcItem)
-                    }
+    //                 // CREATE BOX FOR COMPONENTS FOR INTERACTIONS
+    //                 if (Object.keys(this.pcToBuild.item).length > 0) {
+    //                     const pcItem = this.pcToBuild.item
+    //                     pcItem.size.box = {
+    //                         x: this.ui.pcCaseArea.width/ 2 - pcItem.size.width/2,
+    //                         y: this.ui.pcCaseArea.height/2 - pcItem.size.height/2,
+    //                         width: pcItem.size.width,
+    //                         height: pcItem.size.height
+    //                     }
+    //                     // CREATE SLOT
+    //                     this.ui.createSlotBox(pcItem)
+    //                 }
                    
 
-                    this.componentsShelf.forEach((item, index) => {
-                        const area = this.ui.componentsArea[index]
+    //                 this.componentsShelf.forEach((item, index) => {
+    //                     const area = this.ui.componentsArea[index]
 
-                        item.size.box = {
-                            x: (area.x + area.width/2) - 95,
-                            y: (area.y + area.height/2) - 95,
-                            width: 190,
-                            height: 190
-                        }
-                        // CREATE SLOT
-                        this.ui.createSlotBox(item)
-                    })
+    //                     item.size.box = {
+    //                         x: (area.x + area.width/2) - 95,
+    //                         y: (area.y + area.height/2) - 95,
+    //                         width: 190,
+    //                         height: 190
+    //                     }
+    //                     // CREATE SLOT
+    //                     this.ui.createSlotBox(item)
+    //                 })
 
                     
-                    this.updateInv(this.inventory.sortedItems)
-                }
+    //                 this.updateInv(this.inventory.sortedItems)
+    //             }
 
-                //QUICK PLACE FEATURE
-                const quickPlace = this.domElements.getQuickPlace()
-                if(quickPlace.checked) {
-                    invItems.splice(index, 1)
-                    this.inventory.sortItems()
-                    invToCanvas()
-                    return
-                } 
+    //             // const itemDelete = () {
+    //             //     let counter = 0
+    //             //     for(let i = 0; i < invItems.length; i++ ) {
+                        
+    //             //         if(counter !== 1) {
+    //             //             if(invItems[i].name == item.name) {
+    //             //                 invItems.splice(i, 1)
+    //             //                 counter++
+    //             //             }
+    //             //         }
+    //             //     }
+    //             // }
+    //             //QUICK PLACE FEATURE
+    //             const quickPlace = this.domElements.getQuickPlace()
+    //             if(quickPlace.checked) {
+    //                 // 
+    //                 let counter = 0
+    //                 for(let i = 0; i < invItems.length; i++ ) {
+                        
+    //                     if(counter !== 1) {
+    //                         if(invItems[i].name == item.name) {
+    //                             invItems.splice(i, 1)
+    //                             counter++
+    //                         }
+    //                     }
+    //                 }
+    //                 // invItems.forEach((invItem, index1) => {
+    //                 //     if(invItem.name == item.name) {
+    //                 //         invItems.splice(index1, 1)
+    //                 //     }
+    //                 // })
+    //                 invSortedItems.splice(index, 1)
+    //                 this.inventory.sortItems()
+    //                 invToCanvas()
+    //                 return
+    //             } 
 
-                // ITEM INFORMATION MODAL
-                const infoContainer = this.domElements.getInfoModal()
-                const itemInfo = this.ui.makeInfoDialog(item)
-                const placeButton = this.ui.makeButton('PLACE')
-                itemInfo.appendChild(placeButton)
+    //             // ITEM INFORMATION MODAL
+    //             const infoContainer = this.domElements.getInfoModal()
+    //             const itemInfo = this.ui.makeInfoDialog(item)
+    //             const placeButton = this.ui.makeButton('PLACE')
+    //             itemInfo.appendChild(placeButton)
 
-                // UPDATE CANVAS UPON PLACE BUTTON CLICK & QUICK PLACE
-                placeButton.addEventListener ('click', () => {
-                    invItems.splice(index, 1)
-                    this.inventory.sortItems()
-                    invToCanvas()
-                    infoContainer.close()
+    //             // UPDATE CANVAS UPON PLACE BUTTON CLICK & QUICK PLACE
+    //             placeButton.addEventListener ('click', () => {
+    //                 // 
+    //                 let counter = 0
+    //                 for(let i = 0; i < invItems.length; i++ ) {
+                        
+    //                     if(counter < 1) {
+    //                         if(invItems[i].name == item.name) {
+    //                             invItems.splice(i, 1)
+    //                             counter++
+    //                         }
+    //                     }
+    //                 }
+    //                 // invItems.forEach((invItem, index1) => {
+    //                 //     if(invItem.name == item.name) {
+    //                 //         invItems.splice(index1, 1)
+    //                 //     }
+    //                 // })
+    //                 invSortedItems.splice(index, 1)
+    //                 this.inventory.sortItems()
+    //                 invToCanvas()
+    //                 infoContainer.close()
                 
-                })
+    //             })
 
-                this.ui.updateInfoDialog(itemInfo, infoContainer)
-                infoContainer.showModal()
-                this.ui.handleOutOfModal(infoContainer)
-            })
+    //             this.ui.updateInfoDialog(itemInfo, infoContainer)
+    //             infoContainer.showModal()
+    //             this.ui.handleOutOfModal(infoContainer)
+    //         })
 
-        })
+    //     })
     }
 
     start() {
@@ -294,21 +369,12 @@ class Game {
         this.ui.canvas.addEventListener('mousemove', (e) => this.handleMouseMove(e)) 
         this.ui.canvas.addEventListener('mouseup', () => this.handleMouseUp())
 
+        // PLATFORM OPENING
+        
+
         // INITIALIZE GAME
         this.shopInit() 
         this.ui.animate(this.pcToBuild, this.componentsShelf)
-
-        /////////////////////// SORT SHOP 
-        // BY CATEGORY
-        this.shop.categories.forEach(category  => {
-            category.addEventListener('click', () => {
-                this.updateShop(this.shop.sortedItems)
-            })
-        })
-        // BY NAME 
-        this.shop.searchBar.element.addEventListener('input', (e) => {
-            this.updateShop(this.shop.sortedItems)
-        })
 
         ///////////////////// SORT INVENTORY
         // BY CATEGORY
@@ -318,7 +384,7 @@ class Game {
             })
         })
         // BY NAME
-        this.inventory.searchBar.element.addEventListener('input', (e) => {
+        this.inventory.searchBar.element.addEventListener('input', () => {
             this.updateInv(this.inventory.sortedItems)
         })
     }
