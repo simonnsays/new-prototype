@@ -41,14 +41,10 @@ class UI {
     handleOutofModal(area) { 
         
         area.addEventListener('click', (e) => {
-            console.log(e.clientX, e.clientY)
             const isOutOfModal = this.listenOutOfModal(area, e)
-
 
             if(isOutOfModal) area.close()
         } )
-        
-        // console.log(area)
     }
 
     listenOutOfModal(area, point) { 
@@ -109,7 +105,7 @@ class UI {
 
         // DRAW COMPONENTS ON SHELF
         componentsShelf.forEach((item) => {
-            const image = 
+
             this.c.drawImage(
                 item.states.default.image,
                 item.size.box.x, 
@@ -118,6 +114,8 @@ class UI {
                 item.size.box.height
             )
         })
+        
+        
 
         requestAnimationFrame(() => this.animate(pcSet, componentsShelf)) 
     }

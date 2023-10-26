@@ -26,56 +26,25 @@ class Platform {
         // CLEAR SORTED ITEMS ARRAY
         this.sortedItems = []
         // CHECK THE SELECTED CATEGORY
-        this.sortCategory = {}
-        this.categories.forEach(category => {
-            if(category.active) {
-                this.sortCategory = category
-            }
-        })
+        this.sortCategory = Array.from(this.categories).find(category => category.active) || {}
 
-        // IF NO CATEGORY SELECTED
-        if(Object.keys(this.sortCategory).length == 0) {
-            // IF SEARCH BAR IS BEING USED BUT NO RESULT
-            if(this.searchBar.element.value.length > 0 && this.searchResults == 0) {
-                this.sortedItems = []
-                return
+        // IF CATEGORY IS SELECTED
+        if(Object.keys(this.sortCategory).length !== 0) {
+            // if searchbar is used
+            if (this.searchBar.element.value.length > 0) {
+                this.sortedItems = this.searchResults.filter(result => result.type === this.sortCategory.dataset.id)
+            } else {
+                // filter by category 
+                this.sortedItems = this.items.filter(item => item.type === this.sortCategory.dataset.id)
             }
-            // IF THERE ARE RESULTS WHILE USING SEARCH BAR
-            if(this.searchResults.length > 0) {
+        // IF CATEGORY IS NOT SELECTED 
+        } else {
+            // if searchbar is used
+            if(this.searchBar.element.value.length > 0) {
                 this.sortedItems = this.searchResults
-                return
+            } else {
+                this.sortedItems = [...this.items]
             }
-
-            // IF SEARCH BAR WAS NOT USED
-            this.sortedItems = [...this.items]
-            return
-        }
-
-        // IF A CATEGORY IS SELECTED
-        if(Object.keys(this.sortCategory).length > 0) {
-            if(this.searchBar.element.value.length > 0 && this.searchResults == 0) {
-                this.sortedItems = []
-                return
-            }
-
-            // CHECK IF SEARCH HAS A RESULT
-            if(this.searchResults.length > 0) {
-                
-                // CHECK FOR MATCH IN SEARCH INPUT AND CATEGORY
-                this.searchResults.forEach(result => {
-                    if(this.sortCategory.dataset.id == result.type) {
-                        this.sortedItems.push(result)
-                    }
-                })
-                return
-            }
-
-            // IF SEARCH HAS NO RESULT
-            this.items.forEach(item => { 
-                if(item.type == this.sortCategory.dataset.id) {
-                    this.sortedItems.push(item)
-                }
-            })
         }
     }
 
@@ -122,7 +91,6 @@ class Platform {
 
         this.searchBar.element.value = ''
         this.searchResults = []
-        console.log('reached')
         this.sortItems()
     }
 }

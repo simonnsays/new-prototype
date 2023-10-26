@@ -43,25 +43,11 @@ class Shop extends Platform{
     handleModalButtons(button) {
         switch(button.id) {
             case 'openShop':
-                this.modal.isOpen = true
                 this.modal.showModal()
                 break
             case 'closeShop':
-                this.modal.isOpen = false
                 this.modal.close()
         }
-    }
-
-    handleSearchInput(e) {
-        // const pattern = e.target.value
-
-        // if(pattern.length == 0) {
-        //     this.searchResults = [...this.items]
-        //     this.sortItems()
-        //     return
-        // }
-
-        super.handleSearchInput(e)
     }
 }
 

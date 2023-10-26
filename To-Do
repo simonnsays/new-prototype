@@ -26,9 +26,14 @@ Bugs/Problems:
 - [/] s/c problem: once you type in search and delete all text, items are gone
 - [/] on startup, upon choosing a category and unclicking it, items are gone. Items comes back after typing a search (problem with intialization of shop.searchResults)
 - [|] placing components to canvas doesnt update inventory properly
-        |_ [] double items are being deleted on first click, prolly a shop implementation error
-- [|] rehaul of shop intialization
-        |_ [] clear of filters after exiting shop area
-        |_ [] application of filters (search and category)
-- [|] rehaul of shop div update
-- [|] rehaul of inventory div update
+        |_ [] double items are being deleted on first click, prolly a patform implementation error
+- [/] rehaul of shop intialization
+        |_ [/] clear of filters after exiting shop area
+        |_ [/] application of filters (search and category)
+- [/] rehaul of shop div update
+- [/] rehaul of inventory div update
+- [/] addition of an inventory intialization
+- [/] components are not being drewn despite removing from the inventory
+- [/] rewrite of update inventory
+        |_ [/] abstract a method for displaying components
+        |_ [/] update quickplace
