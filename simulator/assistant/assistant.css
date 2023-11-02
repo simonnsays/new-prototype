@@ -1,0 +1,35 @@
+.assistant-container {
+    width: 4vw;
+    height: 4vw;
+    min-width: 80px;
+    min-height: 80px;
+    position: fixed;
+    bottom: 30px;
+    left: 50px;
+    display: flex;
+    gap: 50px;
+
+    background-color: var(--pastel-yellow);
+    box-shadow: 0 0 10px black ;
+
+    border-radius: 1000px;
+    padding: 1%;
+
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+.extended {
+    width: 40vw;
+    /* height: 4vw; */
+}
+
+.assistant-image-container {
+    width: 80px;
+    height: auto;
+}
+
+.assistant-image {
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain;
+}
