@@ -1,20 +1,33 @@
 const container = document.querySelector('.assistant-container')
-const image = container.querySelector('.assistant-image-container')
+const imageContainer = document.querySelector('.assistant-image-container')
+const pulse = document.querySelector('#pulse')
+const image = document.querySelector('.assistant-image')
 const infoContainer = document.querySelector('.assistant-info-container')
 
+let notifCount = 1
+
+
+
 window.addEventListener('mousemove', (e) => {
+    if (notifCount > 0) {
+        pulse.classList.add('pulse')
+        image.classList.add('img-rltv')
+    } else {
+        pulse.classList.remove('pulse')
+        image.classList.remove('img-rltv')
+    }
+
     if(isInArea(container, e)) {
-        
+        notifCount = 0
         container.classList.add('extended')
         container.addEventListener('transitionend', () => {
         })
-
     } else {
+        notifCount = 1
         console.log('false')
         container.classList.remove('extended')
     }
 })
-
 
 function isInArea(area, mouse) {
     point = {x: mouse.clientX, y: mouse.clientY}
