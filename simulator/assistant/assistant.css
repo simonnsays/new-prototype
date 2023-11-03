@@ -65,6 +65,18 @@
     bottom: 80px;
 }
 
+.assistant-modal {
+    width: 80vw;
+    height: 80vh;
+    background-color: var(--pastel-yellow);
+
+    transition: all 1.5s ease-in-out;
+}
+.assistant-modal::backdrop {
+    background-color: black;
+    opacity: .3;
+}
+
 @keyframes pulse {
     0% {
         transform: scale(.2); /* Initial size */
