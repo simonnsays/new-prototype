@@ -5,7 +5,7 @@ const image = document.querySelector('.assistant-image')
 const infoContainer = document.querySelector('.assistant-info-container')
 const asstModal = document.querySelector('.assistant-modal')
 
-let notifCount = 1
+let notifCount = 0
 
 window.addEventListener('mousemove', (e) => {
     if (notifCount > 0) {
