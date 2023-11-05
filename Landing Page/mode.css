@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500&display=swap');
+
+:root {
+    --blue: #334155;
+    --light-lime: #abd699;
+    --fresh-lemon: #ffe26a;
+    --pastel-yellow: #fef9db;
+    --teal: #75c9b7;
+    --mint: #c7ddcc;
+    --navy: #16123f;
+}
+
+* {
+    font-family: 'Open Sans', sans-serif;
+} 
+
+.carousel-item__btn {
+    cursor: pointer;
+}
+
+.z-5 {
+    z-index: 5;
+}
+
+.overlay {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(to right, var(--light-lime),var(--teal));
+    /* background-color: black; */
+    filter: brightness(25%);
+    position: fixed;
+    opacity: 0.7; /* Set opacity to 70% */
+    z-index: 1;
+    display: none;
+}
+
+.mode-select-modal {
+    width: 100vw;
+    height: 100vh;
+    z-index: 6;
+    position: fixed;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-color: var(--teal); */
+    
+    /* border-radius: 20px; */
+    padding: 10px;
+
+    animation: fadeInAnimation ease 1s;
+}
+
+.mode-header {
+    color: black;
+    color: white;
+    position: relative;
+    bottom: 80px;
+
+    font-weight: 600;
+
+    letter-spacing: 3px;
+}
+
+.modes-container {
+    display: flex;
+    gap: 10vw;
+    margin-top: 20px;
+}
+
+.mode {
+    width: 300px;
+    height: 450px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(to right, var(--light-lime),var(--teal));
+
+    /* border: 5px solid black; */
+    border-radius: 30px;
+    padding: 40px 0 0 0;
+
+    transition: transform 0.3s ease-in-out;
+    transform: scale(1);
+}
+.mode:hover {
+    transform: scale(1.2);
+}
+
+.mode-image {
+    width: 80%;
+
+    border: 3px solid black;
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+.mode-image img {
+    width: 100%;
+    height: 100%;
+}
+
+.mode-icon {
+    width: 80px;
+    height: 100px;
+    position: relative;
+    top: 40px;
+}
+
+.fr {
+    margin: -9px;
+    width: 55px;
+    height: 100px;
+    top: 25px
+}
+
+
+/* ANIMATIONS */
+@keyframes fadeInAnimation {
+    0% { opacity: 0; }
+    100% {
+        opacity: 1; /* Set to the same opacity as in .overlay */
+    }
+}
