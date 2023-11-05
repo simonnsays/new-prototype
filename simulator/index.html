@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prototype v2</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./assistant/assistant.css">
     <link rel="icon" href="../favicon.png" type="image/x-icon">
     <style>
        /* immediate change of styles */
@@ -12,26 +13,7 @@
         right: 10px;
         /* bottom: 10px; */
         top: 10px;
-       }
-       .assistant-container {
-        /* width: 100px;
-        height: 100px; */
-        width: 7vw;
-        height: 7vw;
-        min-width: 100px;
-        min-height: 100px;
-        position: fixed;
-        bottom: 30px;
-        left: 50px;
-        display: flex;
-        /* justify-content: flex-start; */
-        background-color: var(--pastel-yellow);
-        /* border: 1px solid black; */
-        border-radius: 1000px;
-        padding: 1%;
-        box-shadow: 1 1 1 black ;
-        overflow: hidden;
-       }
+       }    
 
     </style>
 </head>
@@ -127,20 +109,25 @@
         <!-- INFO DIALOG MODAL -->
         <dialog class="item-info"></dialog>
     </div>
+
+    <!-- UTILITY BUTTONS -->
     <button class="button" id="finish-button">SAVE</button>
     
     <!-- ASSISTANT -->
     <div class="assistant-container">
         <!-- <a href="https://www.flaticon.com/free-icons/processor" title="processor icons">Processor icons created by 3ab2ou - Flaticon</a> -->
         <div class="assistant-image-container">
-            <img src="./assets/Assistant/processor.png" class="assistant-image" >
+            <div id="pulse" class="pulse">
+                
+            </div>
+            <img src="./assets/Assistant/processor.png" class="assistant-image img-rltv" >
         </div>
-        <div class="assistant-info-container">Hi, I'm Your Assistant!</div>
-        
     </div>
 
+    <dialog class="assistant-modal"></dialog>
+
     <script type="module" src="main.js"></script>
-    <script src="./scripts/assistant.js"></script>
+    <script src="./assistant/assistant.js"></script>
     <!-- <script src="./scripts/data.js"></script> -->
     <script>
     </script>
