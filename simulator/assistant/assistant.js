@@ -5,7 +5,7 @@ const image = document.querySelector('.assistant-image')
 const infoContainer = document.querySelector('.assistant-info-container')
 const asstModal = document.querySelector('.assistant-modal')
 
-let notifCount = 0
+let notifCount = 1
 
 window.addEventListener('mousemove', (e) => {
     if (notifCount > 0) {
@@ -22,7 +22,7 @@ window.addEventListener('mousemove', (e) => {
         container.addEventListener('transitionend', () => {
         })
     } else {
-        notifCount = 0
+        notifCount = 1
         container.classList.remove('extended')
     }
 })
