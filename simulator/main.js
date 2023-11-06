@@ -4,6 +4,7 @@ import Inventory from "./scripts/inventory.js"
 import components from "./scripts/data.js"
 import DomElements from "./scripts/domElements.js"
 import PCSet from "./scripts/pcSet.js"
+import Assistant from "./assistant/assistant.js"
 
 // MAIN GAME LOOP
 class Game {
@@ -12,6 +13,7 @@ class Game {
         this.ui = new UI(this.domElements)
         this.shop = new Shop(this.domElements, this.ui)
         this.inventory = new Inventory(this.domElements, this.ui)
+        this.assistant = new Assistant(this.domElements)
 
 
         // COMPONENTS SHELF
@@ -342,16 +344,20 @@ class Game {
    
 
     start() {
+        // INITIALIZE GAME
+        this.shopInit() 
+        this.inventoryInit()
+        this.ui.animate(this.pcToBuild, this.componentsShelf)
+        this.assistant.asstInit()
+
+
         // MOUSE HANDLING
         this.selectedComponent = {}
         this.ui.canvas.addEventListener('mousedown', (e) => this.handleMouseDown(e)) 
         this.ui.canvas.addEventListener('mousemove', (e) => this.handleMouseMove(e)) 
         this.ui.canvas.addEventListener('mouseup', () => this.handleMouseUp()) 
 
-        // INITIALIZE GAME
-        this.shopInit() 
-        this.inventoryInit()
-        this.ui.animate(this.pcToBuild, this.componentsShelf)
+        
     }
 }
 

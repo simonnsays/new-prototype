@@ -71,6 +71,7 @@ a, a:visited {
     display: flex;
     gap: 10vw;
     margin-top: 20px;
+    margin-bottom: 40px;
 }
 
 .mode {

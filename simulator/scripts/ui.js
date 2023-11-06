@@ -4,6 +4,9 @@ class UI {
         this.canvas = domElements.getCanvas()
         this.c = this.canvas.getContext('2d')
 
+        this.canvas.width = 1300
+        this.canvas.height = 680
+
         // COLOR PALETTE
         this.mint = domElements.mint
         this.pastelYellow = domElements.pastelYellow

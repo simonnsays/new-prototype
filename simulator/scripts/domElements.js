@@ -2,8 +2,6 @@ class DomElements {
     constructor() {
         // CANVAS DOM ELEMENTS
         this.canvas = document.querySelector('canvas')
-        this.canvas.width = 1300
-        this.canvas.height = 680
 
         this.gameContainer = document.querySelector('.game-container')
 
@@ -25,6 +23,14 @@ class DomElements {
         this.invCategories = document.querySelectorAll('[data-category="inv')
         this.invSearch = document.querySelector('#invSearch')
 
+        // ASTTISTANT DOM ELEMENTS
+        this.asstContainer = document.querySelector('.assistant-container')
+        this.asstImageContainer = document.querySelector('.assistant-image-container')
+        this.asstPulse = document.querySelector('#pulse')
+        this.asstImage = document.querySelector('.assistant-image')
+        this.asstInfoContainer = document.querySelector('.assistant-info-container')
+        this.asstModal = document.querySelector('.assistant-modal')
+
         // COLOR PALETTE
         this.teal = getComputedStyle(document.documentElement).getPropertyValue('--teal')
         this.mint = getComputedStyle(document.documentElement).getPropertyValue('--mint')
@@ -42,6 +48,31 @@ class DomElements {
 
     getCanvas() {
         return this.canvas
+    }
+
+    // ASSISTANT METHODS
+    getAsstContainer() {
+        return this.asstContainer
+    }
+
+    getAsstImgContianer() {
+        return this.invItemsContainer
+    }
+
+    getAsstPulse() {
+        return this.asstPulse
+    }
+
+    getAsstImage() {
+        return this.asstImage
+    }
+
+    getAsstInfo() {
+        return this.asstInfoContainer
+    }
+
+    getAsstModal() {
+        return this.asstModal
     }
 
     //  SHOP METHODS
