@@ -63,9 +63,12 @@ class Assistant {
 
         window.addEventListener('click', (e) => {
             if(!this.isInArea(this.container, e)) {
+                console.log('reached')
                 this.modal.close()
             }
         })
+
+        
         
     }
 }

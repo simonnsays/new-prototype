@@ -16,7 +16,7 @@
     border-radius: 100px;
     padding: 10px;
 
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     overflow: hidden;
 }
 .extended {
@@ -72,7 +72,6 @@
     overflow: hidden;
 
     opacity: 0;
-    transition: all 2s ease-in-out;
 }
 
 .hidden {
@@ -88,12 +87,93 @@
     width: 80vw;
     height: 80vh;
     background-color: var(--pastel-yellow);
+    overflow: auto;
 
+    padding: 20px;
+    
     transition: all 1.5s ease-in-out;
 }
 .assistant-modal::backdrop {
     background-color: black;
     opacity: .3;
+}
+
+.assistant-modal-container {
+    width: 100%;
+    height: 100%;
+    
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* TASK SIDE */
+.task-container {
+    width: 30%; 
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    /* border: 1px solid black; */
+
+    overflow: auto;
+}
+
+.task-cell {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    
+    /* border: 1px solid black; */
+    padding: 5 10 10 10px;
+}
+.task-cell:hover {
+    background-color: bisque;
+}
+
+.task-cell h1 {
+    
+    margin: 5px 0;
+}
+
+.task-cell p {
+    width: 85%;
+    height: 45%;
+    font-weight: normal;
+    font-size: 0.8rem;
+
+    margin: 0px 0;
+    /* border: 1px solid black;  */
+
+}
+
+/* DESCRIPTION SIDE */
+.desc-container {
+    width: 70%;
+    height: 100%;
+
+    /* border: 1px solid black; */
+}
+
+.header {
+    font-size: 1.4rem;
+}
+
+.hr-line {
+    width: 80%;
+    height: 0;
+
+    border: 1px solid black;
+    margin: 13px;
+}
+
+.vr-line {
+    height: 90%;
+    width: 0px;
+
+    border: 1px solid black;
 }
 
 @keyframes pulse {
