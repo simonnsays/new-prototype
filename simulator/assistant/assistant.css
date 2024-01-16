@@ -20,7 +20,7 @@
     overflow: hidden;
 }
 .extended {
-    width: 40vw;
+    width: 45vw;
     /* height: 4vw; */
 }
 
@@ -68,10 +68,13 @@
 
 .assistant-info-container {
     margin: 0;
-    padding-bottom: 50px;
-    overflow: hidden;
+    /* overflow: hidden; */
 
     opacity: 0;
+}
+
+.assistant-info-container p{
+    margin: 0;
 }
 
 .hidden {
@@ -122,6 +125,7 @@
 
 .task-cell {
     width: 90%;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -130,7 +134,9 @@
     padding: 5 10 10 10px;
 }
 .task-cell:hover {
-    background-color: bisque;
+    /* background-color: bisque; */
+    /* background-color: var(--pastel-yellow); */
+    background-color: var(--mint);
 }
 
 .task-cell h1 {
@@ -174,6 +180,14 @@
     width: 0px;
 
     border: 1px solid black;
+}
+
+.arrow {
+    width: 20;
+    height: 20;
+    position: absolute;
+    right: 20;
+    top: 40%;
 }
 
 @keyframes pulse {

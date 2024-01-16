@@ -1,11 +1,15 @@
 class Assistant {
     constructor(domElements) {
+        // DOM ELEMENTS
         this.container = domElements.getAsstContainer()
         this.imageContainer = domElements.getAsstImgContianer()
         this.pulse = domElements.getAsstPulse()
         this.image = domElements.getAsstImage()
         this.infoContainer = domElements.getAsstInfo()
         this.modal = domElements.getAsstModal()
+
+        // TUTORIAL STEP BY STEPS
+        this.tasks = [{title: '', description: ''}]
 
         this.notifCount = 1
     }
@@ -14,10 +18,10 @@ class Assistant {
         let point = {x: mouse.clientX, y: mouse.clientY}
         let rect = area.getBoundingClientRect()
     
-        if(mouse.x > rect.x &&
-            mouse.x < rect.x + rect.width &&
-            mouse.y > rect.y &&
-            mouse.y < rect.y + rect.height) {
+        if(point.x > rect.x &&
+            point.x < rect.x + rect.width &&
+            point.y > rect.y &&
+            point.y < rect.y + rect.height) {
                 return true
             }
         return false
@@ -62,8 +66,7 @@ class Assistant {
         })
 
         window.addEventListener('click', (e) => {
-            if(!this.isInArea(this.container, e)) {
-                console.log('reached')
+            if(!this.isInArea(this.modal, e) ) {
                 this.modal.close()
             }
         })
