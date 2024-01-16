@@ -113,7 +113,7 @@
     <!-- UTILITY BUTTONS -->
     <button class="button" id="finish-button">SAVE</button>
     
-    <!-- ASSISTANT -->
+    <!------------------------- ASSISTANT ----------------------------------->
     <div class="assistant-container">
         <!-- <a href="https://www.flaticon.com/free-icons/processor" title="processor icons">Processor icons created by 3ab2ou - Flaticon</a> -->
         <!-- ASSISTANT IMAGE -->
@@ -124,8 +124,10 @@
         </div>
 
         <!-- INFO/TIPS -->
-        <div class="assistant-info-container hidden"> 
-            <p id="tip">I'M YOUR ASSISTANT</p> 
+        <div class="assistant-info-container hidden" style="cursor: pointer;"> 
+            <p id="tip">I'm your Assistant, you have new tasks.</p>
+            <p style="font-weight: normal;">CPU are the most relevant computer component but that doesn't mean that other components are not needed.</p> 
+            <p style="font-weight: normal; cursor: pointer;">...</p> 
             <!-- <p id="phrase2">LISTEN HERE YOU LITTLE BITCH</p>  -->
         </div>
     </div>
@@ -139,6 +141,9 @@
                 <div class="task-cell">
                     <h1 class="title">Prepare the PC case</h1>
                     <p class="sub-title">We've Prepared a PC case and it can be seen from your inverntory...</p>
+                    <svg class="arrow">
+                        <use xlink:href="./assets/SVGs/rightarrow.svg#my-svg"></use>
+                    </svg>
                 </div>
                 <div class="hr-line"></div>
                 <div class="task-cell">
@@ -168,6 +173,18 @@
             <div class="desc-container"></div>
         </div>
     </dialog>
+
+    <!-- Assistant Error Message -->
+    <dialog class="err-message">
+        <h3>Error!</h3>
+    </dialog>
+
+    <!-- Assistant Reassure -->
+    <dialog class="asst-reassure"></dialog>
+
+    <!----------------  SVG  ------------------>
+    
+    
 
     <script type="module" src="main.js"></script>
     <!-- <script src="./scripts/data.js"></script> -->
